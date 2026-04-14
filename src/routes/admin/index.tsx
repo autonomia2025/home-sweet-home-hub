@@ -15,6 +15,7 @@ import { AdminConfig } from "@/components/admin/AdminConfig";
 import { AdminFAQs } from "@/components/admin/AdminFAQs";
 import { Toaster } from "sonner";
 import { useConfig } from "@/context/ConfigContext";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPanel,
@@ -35,6 +36,8 @@ function AdminPanel() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<"propiedades" | "configuracion" | "faqs">("propiedades");
+
+  useSEO({ title: "Admin | Inmobiliaria Pérez-Campos", noIndex: true });
 
   useEffect(() => {
     if (!authLoading && !user) {

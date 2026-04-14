@@ -16,6 +16,7 @@ import { LandingCoverage } from "@/components/landing/LandingCoverage";
 import { LandingCtaFinal } from "@/components/landing/LandingCtaFinal";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { WhatsAppFloatingButton } from "@/components/landing/WhatsAppFloatingButton";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -36,15 +37,10 @@ function HomePage() {
   const [propsLoading, setPropsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
 
-  // SEO with dynamic OG image
-  const ogImage = propiedades.length > 0 && propiedades[0].imagen_url
-    ? propiedades[0].imagen_url
-    : "/og-default.jpg";
-
   useSEO({
     title: "Inmobiliaria Pérez-Campos | Propiedades en venta y arriendo en Chile",
     description: "Propiedades únicas en Santiago y costa chilena. Trato directo y personalizado. Inmobiliaria Pérez-Campos.",
-    imageUrl: ogImage,
+    imageUrl: "/og-default.jpg",
   });
 
   useEffect(() => {
@@ -65,8 +61,6 @@ function HomePage() {
     });
     return unsub;
   }, []);
-
-  const isLoading = configLoading || (propsLoading && showSkeleton);
 
   if (configLoading && !showSkeleton) {
     return (
@@ -90,6 +84,7 @@ function HomePage() {
       <LandingCtaFinal />
       <LandingFooter />
       <WhatsAppFloatingButton />
+      <ScrollToTop />
     </div>
   );
 }
