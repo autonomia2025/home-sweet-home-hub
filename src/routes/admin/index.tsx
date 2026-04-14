@@ -37,7 +37,9 @@ function AdminPanel() {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<"propiedades" | "configuracion" | "faqs">("propiedades");
 
-  useEffect(() => {
+  useSEO({ title: "Admin | Inmobiliaria Pérez-Campos", noIndex: true });
+
+
     if (!authLoading && !user) {
       navigate({ to: "/admin/login" });
     }
