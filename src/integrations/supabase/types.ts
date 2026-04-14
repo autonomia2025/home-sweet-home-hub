@@ -35,39 +35,51 @@ export type Database = {
       propiedades: {
         Row: {
           activa: boolean
+          caracteristicas: Json | null
           comuna: string | null
           created_at: string
           descripcion: string | null
+          descripcion_larga: string | null
           id: string
           imagen_url: string | null
+          imagenes: string[] | null
           orden: number
           precio: string | null
           tipo: string
           titulo: string
+          ubicacion_referencia: string | null
         }
         Insert: {
           activa?: boolean
+          caracteristicas?: Json | null
           comuna?: string | null
           created_at?: string
           descripcion?: string | null
+          descripcion_larga?: string | null
           id?: string
           imagen_url?: string | null
+          imagenes?: string[] | null
           orden?: number
           precio?: string | null
           tipo?: string
           titulo: string
+          ubicacion_referencia?: string | null
         }
         Update: {
           activa?: boolean
+          caracteristicas?: Json | null
           comuna?: string | null
           created_at?: string
           descripcion?: string | null
+          descripcion_larga?: string | null
           id?: string
           imagen_url?: string | null
+          imagenes?: string[] | null
           orden?: number
           precio?: string | null
           tipo?: string
           titulo?: string
+          ubicacion_referencia?: string | null
         }
         Relationships: []
       }
