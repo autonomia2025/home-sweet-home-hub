@@ -1,12 +1,12 @@
 import { useReveal } from "@/hooks/use-reveal";
+import { useConfig } from "@/context/ConfigContext";
 
-interface LandingCtaFinalProps {
-  whatsapp: string;
-}
-
-export function LandingCtaFinal({ whatsapp }: LandingCtaFinalProps) {
+export function LandingCtaFinal() {
+  const { whatsapp } = useConfig();
   const revealRef = useReveal();
-  const waLink = `https://wa.me/${whatsapp.replace(/\+/g, "")}?text=${encodeURIComponent("Hola, me gustaría consultar sobre sus propiedades.")}`;
+  const waLink = whatsapp
+    ? `https://wa.me/${whatsapp.replace(/\+/g, "")}?text=${encodeURIComponent("Hola, me gustaría consultar sobre sus propiedades.")}`
+    : "#";
 
   return (
     <section

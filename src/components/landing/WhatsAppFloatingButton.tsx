@@ -1,8 +1,10 @@
-interface WhatsAppFloatingButtonProps {
-  whatsapp: string;
-}
+import { useConfig } from "@/context/ConfigContext";
 
-export function WhatsAppFloatingButton({ whatsapp }: WhatsAppFloatingButtonProps) {
+export function WhatsAppFloatingButton() {
+  const { whatsapp } = useConfig();
+
+  if (!whatsapp) return null;
+
   const waLink = `https://wa.me/${whatsapp.replace(/\+/g, "")}?text=${encodeURIComponent("Hola, me gustaría consultar sobre sus propiedades.")}`;
 
   return (

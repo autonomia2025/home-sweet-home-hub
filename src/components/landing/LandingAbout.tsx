@@ -1,10 +1,9 @@
 import { useReveal } from "@/hooks/use-reveal";
+import { useConfig } from "@/context/ConfigContext";
+import { SkeletonText } from "@/components/ui/skeleton";
 
-interface LandingAboutProps {
-  presentacion: string;
-}
-
-export function LandingAbout({ presentacion }: LandingAboutProps) {
+export function LandingAbout() {
+  const { presentacion, loading } = useConfig();
   const revealRef = useReveal();
 
   return (
@@ -15,7 +14,6 @@ export function LandingAbout({ presentacion }: LandingAboutProps) {
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        {/* Text */}
         <div>
           <h2
             className="reveal-hidden font-display text-3xl md:text-5xl text-foreground mb-8"
@@ -25,16 +23,23 @@ export function LandingAbout({ presentacion }: LandingAboutProps) {
             <br />
             de familia
           </h2>
-          <p
-            className="reveal-hidden font-body text-text-secondary text-base md:text-lg leading-relaxed max-w-lg"
-            data-reveal-delay="150"
-            style={{ fontWeight: 300 }}
-          >
-            {presentacion}
-          </p>
+          {loading ? (
+            <div className="space-y-3 max-w-lg">
+              <SkeletonText width="100%" variant="dark" />
+              <SkeletonText width="90%" variant="dark" />
+              <SkeletonText width="75%" variant="dark" />
+            </div>
+          ) : (
+            <p
+              className="reveal-hidden font-body text-text-secondary text-base md:text-lg leading-relaxed max-w-lg"
+              data-reveal-delay="150"
+              style={{ fontWeight: 300 }}
+            >
+              {presentacion}
+            </p>
+          )}
         </div>
 
-        {/* Logo placeholder */}
         <div className="reveal-hidden flex justify-center md:justify-end" data-reveal-delay="200">
           <div
             className="w-64 h-64 md:w-80 md:h-80 flex items-center justify-center border border-foreground/10"
