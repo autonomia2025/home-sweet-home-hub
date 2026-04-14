@@ -56,7 +56,7 @@ function PropiedadDetalle() {
   const waLink = `https://wa.me/${whatsapp.replace(/\+/g, "")}?text=${encodeURIComponent(waMessage)}`;
 
   const chars = (prop.caracteristicas || {}) as Caracteristicas;
-  const hasChars = Object.values(chars).some((v) => v !== undefined && v !== null && v !== "");
+  const hasChars = Object.values(chars).some((v) => v !== undefined && v !== null);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#f5f5f3" }}>
