@@ -32,6 +32,33 @@ export type Database = {
         }
         Relationships: []
       }
+      faqs: {
+        Row: {
+          activa: boolean
+          created_at: string
+          id: string
+          orden: number
+          pregunta: string
+          respuesta: string
+        }
+        Insert: {
+          activa?: boolean
+          created_at?: string
+          id?: string
+          orden?: number
+          pregunta: string
+          respuesta: string
+        }
+        Update: {
+          activa?: boolean
+          created_at?: string
+          id?: string
+          orden?: number
+          pregunta?: string
+          respuesta?: string
+        }
+        Relationships: []
+      }
       propiedades: {
         Row: {
           activa: boolean
