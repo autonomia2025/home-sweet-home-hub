@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import type { FAQ } from "@/lib/supabase-helpers";
 import { fetchFAQsActivas } from "@/lib/supabase-helpers";
-import { useReveal } from "@/hooks/use-reveal";
 import { SkeletonFAQRow } from "@/components/ui/skeleton";
 
 export function LandingFAQ() {
-  const revealRef = useReveal();
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
@@ -43,7 +41,6 @@ export function LandingFAQ() {
     <section
       className="py-24 md:py-32 px-6"
       style={{ backgroundColor: "#f5f5f3" }}
-      ref={revealRef}
     >
       {!loading && faqs.length > 0 && (
         <script
@@ -54,7 +51,7 @@ export function LandingFAQ() {
 
       <div className="max-w-3xl mx-auto">
         <h2
-          className="reveal-hidden font-display text-3xl md:text-5xl mb-16 text-center"
+          className="font-display text-3xl md:text-5xl mb-16 text-center"
           style={{ color: "#0a0a0a", fontWeight: 300 }}
         >
           Preguntas frecuentes
@@ -75,7 +72,6 @@ export function LandingFAQ() {
               return (
                 <div
                   key={faq.id}
-                  className="reveal-hidden"
                   style={{ borderBottom: "1px solid rgba(0,0,0,0.08)" }}
                 >
                   <button
