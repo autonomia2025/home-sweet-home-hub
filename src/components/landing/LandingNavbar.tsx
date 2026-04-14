@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { useConfig } from "@/context/ConfigContext";
 
-interface LandingNavbarProps {
-  nombre: string;
-}
-
-export function LandingNavbar({ nombre }: LandingNavbarProps) {
+export function LandingNavbar() {
+  const { nombre_inmobiliaria } = useConfig();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,7 +24,6 @@ export function LandingNavbar({ nombre }: LandingNavbarProps) {
       style={{ backgroundColor: "#0a0a0a" }}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
-        {/* Logo + name */}
         <Link to="/" className="flex items-center gap-4">
           <div className="w-10 h-10 flex items-center justify-center border border-foreground/20">
             <span className="font-display text-lg tracking-widest text-foreground">PC</span>
@@ -35,11 +32,10 @@ export function LandingNavbar({ nombre }: LandingNavbarProps) {
             className="hidden lg:block text-foreground text-[11px] font-body tracking-[0.2em] uppercase"
             style={{ fontWeight: 300 }}
           >
-            {nombre}
+            {nombre_inmobiliaria}
           </span>
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {[
             { label: "INICIO", target: "hero" },
@@ -58,7 +54,6 @@ export function LandingNavbar({ nombre }: LandingNavbarProps) {
           ))}
         </div>
 
-        {/* CTA */}
         <button
           onClick={() => scrollTo("cta-final")}
           className="text-[11px] tracking-[0.2em] uppercase border border-foreground/30 px-5 py-2.5 text-foreground hover:bg-foreground hover:text-background transition-all duration-300 font-body"

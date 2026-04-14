@@ -211,4 +211,25 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Skeleton shimmer */
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .skeleton-shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  .skeleton-light {
+    background: linear-gradient(90deg, #e8e8e5 25%, #d8d8d4 50%, #e8e8e5 75%);
+    background-size: 200% 100%;
+  }
+
+  .skeleton-dark {
+    background: linear-gradient(90deg, #1a1a1a 25%, #222222 50%, #1a1a1a 75%);
+    background-size: 200% 100%;
+  }
 }
