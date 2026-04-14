@@ -63,20 +63,6 @@ export async function upsertPropiedad(propiedad: Partial<Propiedad>) {
     if (error) throw error;
   }
 }
-  if (propiedad.id) {
-    const { id, ...rest } = propiedad;
-    const { error } = await supabase
-      .from("propiedades")
-      .update(rest as Record<string, unknown>)
-      .eq("id", id);
-    if (error) throw error;
-  } else {
-    const { error } = await supabase
-      .from("propiedades")
-      .insert(propiedad as Record<string, unknown>);
-    if (error) throw error;
-  }
-}
 
 export async function deletePropiedad(id: string) {
   const { error } = await supabase.from("propiedades").delete().eq("id", id);
@@ -84,10 +70,10 @@ export async function deletePropiedad(id: string) {
 }
 
 export async function updateConfiguracion(clave: string, valor: string) {
-  const { error } = await supabase
+  const { error } = await (supabase
     .from("configuracion")
-    .update({ valor })
-    .eq("clave", clave);
+    .update({ valor } as any)
+    .eq("clave", clave) as any);
   if (error) throw error;
 }
 
