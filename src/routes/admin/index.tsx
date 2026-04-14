@@ -4,14 +4,17 @@ import { useAuth } from "@/hooks/use-auth";
 import {
   fetchAllPropiedades,
   fetchConfiguracion,
+  fetchAllFAQs,
   subscribeToPropiedades,
   subscribeToConfiguracion,
 } from "@/lib/supabase-helpers";
-import type { Propiedad } from "@/lib/supabase-helpers";
+import type { Propiedad, FAQ } from "@/lib/supabase-helpers";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminProperties } from "@/components/admin/AdminProperties";
 import { AdminConfig } from "@/components/admin/AdminConfig";
+import { AdminFAQs } from "@/components/admin/AdminFAQs";
 import { Toaster } from "sonner";
+import { useConfig } from "@/context/ConfigContext";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPanel,
@@ -26,10 +29,12 @@ export const Route = createFileRoute("/admin/")({
 function AdminPanel() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const { refresh: refreshConfig } = useConfig();
   const [propiedades, setPropiedades] = useState<Propiedad[]>([]);
   const [config, setConfig] = useState<Record<string, string>>({});
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState<"propiedades" | "configuracion">("propiedades");
+  const [activeSection, setActiveSection] = useState<"propiedades" | "configuracion" | "faqs">("propiedades");
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -39,9 +44,14 @@ function AdminPanel() {
 
   const loadData = useCallback(async () => {
     try {
-      const [props, conf] = await Promise.all([fetchAllPropiedades(), fetchConfiguracion()]);
+      const [props, conf, faqData] = await Promise.all([
+        fetchAllPropiedades(),
+        fetchConfiguracion(),
+        fetchAllFAQs(),
+      ]);
       setPropiedades(props);
       setConfig(conf);
+      setFaqs(faqData);
     } finally {
       setLoading(false);
     }
@@ -51,7 +61,6 @@ function AdminPanel() {
     if (user) loadData();
   }, [user, loadData]);
 
-  // Realtime subscriptions
   useEffect(() => {
     if (!user) return;
     const unsubProps = subscribeToPropiedades(() => {
@@ -59,22 +68,20 @@ function AdminPanel() {
     });
     const unsubConfig = subscribeToConfiguracion(() => {
       fetchConfiguracion().then(setConfig).catch(console.error);
+      refreshConfig();
     });
-    return () => {
-      unsubProps();
-      unsubConfig();
-    };
-  }, [user]);
+    return () => { unsubProps(); unsubConfig(); };
+  }, [user, refreshConfig]);
+
+  const handleConfigRefresh = async () => {
+    await loadData();
+    await refreshConfig();
+  };
 
   if (authLoading || !user) {
     return (
-      <div
-        className="flex items-center justify-center min-h-screen"
-        style={{ backgroundColor: "#f5f5f3" }}
-      >
-        <span className="font-display text-xl" style={{ color: "#ccc", fontWeight: 300 }}>
-          Cargando...
-        </span>
+      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#f5f5f3" }}>
+        <span className="font-display text-xl" style={{ color: "#ccc", fontWeight: 300 }}>Cargando...</span>
       </div>
     );
   }
@@ -85,31 +92,23 @@ function AdminPanel() {
       <AdminSidebar activeSection={activeSection} onChangeSection={setActiveSection} />
 
       <main className="flex-1 min-w-0">
-        {/* Header */}
-        <header
-          className="h-14 flex items-center px-6 md:px-8 border-b"
-          style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: "#fff" }}
-        >
-          <h1
-            className="text-[11px] tracking-[0.15em] uppercase font-body ml-10 md:ml-0"
-            style={{ color: "#9a9a9a", fontWeight: 400 }}
-          >
+        <header className="h-14 flex items-center px-6 md:px-8 border-b" style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: "#fff" }}>
+          <h1 className="text-[11px] tracking-[0.15em] uppercase font-body ml-10 md:ml-0" style={{ color: "#9a9a9a", fontWeight: 400 }}>
             Panel de Administración — Pérez-Campos
           </h1>
         </header>
 
-        {/* Content */}
         <div className="p-6 md:p-8">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <span className="text-sm font-body" style={{ color: "#9a9a9a", fontWeight: 300 }}>
-                Cargando datos...
-              </span>
+              <span className="text-sm font-body" style={{ color: "#9a9a9a", fontWeight: 300 }}>Cargando datos...</span>
             </div>
           ) : activeSection === "propiedades" ? (
             <AdminProperties propiedades={propiedades} onRefresh={loadData} />
+          ) : activeSection === "faqs" ? (
+            <AdminFAQs faqs={faqs} onRefresh={loadData} />
           ) : (
-            <AdminConfig config={config} onRefresh={loadData} />
+            <AdminConfig config={config} onRefresh={handleConfigRefresh} />
           )}
         </div>
       </main>
