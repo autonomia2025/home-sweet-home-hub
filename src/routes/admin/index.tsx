@@ -15,6 +15,7 @@ import { AdminConfig } from "@/components/admin/AdminConfig";
 import { AdminFAQs } from "@/components/admin/AdminFAQs";
 import { Toaster } from "sonner";
 import { useConfig } from "@/context/ConfigContext";
+import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPanel,
