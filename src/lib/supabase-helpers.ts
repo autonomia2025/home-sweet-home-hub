@@ -69,6 +69,30 @@ export async function deletePropiedad(id: string) {
   if (error) throw error;
 }
 
+export async function togglePropiedad(id: string, activa: boolean) {
+  const { error } = await (supabase
+    .from("propiedades")
+    .update({ activa } as any)
+    .eq("id", id) as any);
+  if (error) throw error;
+}
+
+export function subscribeToPropiedades(callback: () => void) {
+  const channel = supabase
+    .channel("propiedades-changes")
+    .on("postgres_changes", { event: "*", schema: "public", table: "propiedades" }, callback)
+    .subscribe();
+  return () => { supabase.removeChannel(channel); };
+}
+
+export function subscribeToConfiguracion(callback: () => void) {
+  const channel = supabase
+    .channel("configuracion-changes")
+    .on("postgres_changes", { event: "*", schema: "public", table: "configuracion" }, callback)
+    .subscribe();
+  return () => { supabase.removeChannel(channel); };
+}
+
 export async function updateConfiguracion(clave: string, valor: string) {
   const { error } = await (supabase
     .from("configuracion")
