@@ -41,6 +41,17 @@ function HomePage() {
       .finally(() => setLoading(false));
   }, []);
 
+  // Realtime: auto-update when admin changes data
+  useEffect(() => {
+    const unsubProps = subscribeToPropiedades(() => {
+      fetchPropiedadesActivas().then(setPropiedades).catch(console.error);
+    });
+    const unsubConfig = subscribeToConfiguracion(() => {
+      fetchConfiguracion().then(setConfig).catch(console.error);
+    });
+    return () => { unsubProps(); unsubConfig(); };
+  }, []);
+
   if (loading) {
     return (
       <div
