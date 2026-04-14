@@ -31,6 +31,17 @@ export type Configuracion = {
   valor: string | null;
 };
 
+export type FAQ = {
+  id: string;
+  pregunta: string;
+  respuesta: string;
+  orden: number;
+  activa: boolean;
+  created_at: string;
+};
+
+// ── Propiedades ──
+
 export async function fetchPropiedadesActivas() {
   const { data, error } = await supabase
     .from("propiedades")
@@ -50,14 +61,14 @@ export async function fetchAllPropiedades() {
   return data as Propiedad[];
 }
 
-export async function fetchConfiguracion() {
-  const { data, error } = await supabase.from("configuracion").select("*");
+export async function fetchPropiedadById(id: string) {
+  const { data, error } = await supabase
+    .from("propiedades")
+    .select("*")
+    .eq("id", id)
+    .single();
   if (error) throw error;
-  const map: Record<string, string> = {};
-  (data as Configuracion[]).forEach((c) => {
-    map[c.clave] = c.valor || "";
-  });
-  return map;
+  return data as Propiedad;
 }
 
 export async function upsertPropiedad(propiedad: Partial<Propiedad>) {
@@ -97,6 +108,18 @@ export function subscribeToPropiedades(callback: () => void) {
   return () => { supabase.removeChannel(channel); };
 }
 
+// ── Configuracion ──
+
+export async function fetchConfiguracion() {
+  const { data, error } = await supabase.from("configuracion").select("*");
+  if (error) throw error;
+  const map: Record<string, string> = {};
+  (data as Configuracion[]).forEach((c) => {
+    map[c.clave] = c.valor || "";
+  });
+  return map;
+}
+
 export function subscribeToConfiguracion(callback: () => void) {
   const channel = supabase
     .channel("configuracion-changes")
@@ -112,6 +135,58 @@ export async function updateConfiguracion(clave: string, valor: string) {
     .eq("clave", clave) as any);
   if (error) throw error;
 }
+
+// ── FAQs ──
+
+export async function fetchFAQsActivas() {
+  const { data, error } = await supabase
+    .from("faqs")
+    .select("*")
+    .eq("activa", true)
+    .order("orden", { ascending: true });
+  if (error) throw error;
+  return data as FAQ[];
+}
+
+export async function fetchAllFAQs() {
+  const { data, error } = await supabase
+    .from("faqs")
+    .select("*")
+    .order("orden", { ascending: true });
+  if (error) throw error;
+  return data as FAQ[];
+}
+
+export async function upsertFAQ(faq: Partial<FAQ>) {
+  if (faq.id) {
+    const { id, ...rest } = faq;
+    const { error } = await (supabase
+      .from("faqs")
+      .update(rest as any)
+      .eq("id", id) as any);
+    if (error) throw error;
+  } else {
+    const { error } = await (supabase
+      .from("faqs")
+      .insert(faq as any) as any);
+    if (error) throw error;
+  }
+}
+
+export async function deleteFAQ(id: string) {
+  const { error } = await supabase.from("faqs").delete().eq("id", id);
+  if (error) throw error;
+}
+
+export async function toggleFAQ(id: string, activa: boolean) {
+  const { error } = await (supabase
+    .from("faqs")
+    .update({ activa } as any)
+    .eq("id", id) as any);
+  if (error) throw error;
+}
+
+// ── Storage ──
 
 export async function uploadImage(file: File): Promise<string> {
   const fileName = `${crypto.randomUUID()}-${Date.now()}.${file.name.split('.').pop()}`;
@@ -130,14 +205,4 @@ export async function deleteStorageImage(url: string) {
   if (parts.length < 2) return;
   const path = decodeURIComponent(parts[1]);
   await supabase.storage.from("propiedades-imgs").remove([path]);
-}
-
-export async function fetchPropiedadById(id: string) {
-  const { data, error } = await supabase
-    .from("propiedades")
-    .select("*")
-    .eq("id", id)
-    .single();
-  if (error) throw error;
-  return data as Propiedad;
 }
