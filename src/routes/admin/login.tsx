@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, Navigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
@@ -23,8 +23,7 @@ function AdminLogin() {
 
   // If already authenticated, redirect
   if (!authLoading && user) {
-    navigate({ to: "/admin" });
-    return null;
+    return <Navigate to="/admin" />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
