@@ -50,13 +50,16 @@ export async function fetchConfiguracion() {
 
 export async function upsertPropiedad(propiedad: Partial<Propiedad>) {
   if (propiedad.id) {
+    const { id, ...rest } = propiedad;
     const { error } = await supabase
       .from("propiedades")
-      .update(propiedad)
-      .eq("id", propiedad.id);
+      .update(rest as Record<string, unknown>)
+      .eq("id", id);
     if (error) throw error;
   } else {
-    const { error } = await supabase.from("propiedades").insert(propiedad);
+    const { error } = await supabase
+      .from("propiedades")
+      .insert(propiedad as Record<string, unknown>);
     if (error) throw error;
   }
 }
