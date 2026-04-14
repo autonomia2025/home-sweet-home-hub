@@ -7,7 +7,8 @@ import { useSEO } from "@/hooks/useSEO";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { WhatsAppFloatingButton } from "@/components/landing/WhatsAppFloatingButton";
-import { Skeleton, SkeletonText, SkeletonBlock } from "@/components/ui/skeleton";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { SkeletonText, SkeletonBlock } from "@/components/ui/skeleton";
 import {
   MapPin, ArrowLeft, Ruler, BedDouble, Bath, Car, Package,
 } from "lucide-react";
@@ -35,6 +36,7 @@ function PropiedadDetalle() {
     title: prop ? `${prop.titulo} | Inmobiliaria Pérez-Campos` : undefined,
     description: prop ? `${prop.descripcion || ""} — ${prop.comuna || ""}` : undefined,
     imageUrl: prop?.imagen_url || undefined,
+    type: "article",
   });
 
   useEffect(() => {
@@ -103,7 +105,6 @@ function PropiedadDetalle() {
 
           <p className="font-display text-2xl mb-8" style={{ color: "#0a0a0a", fontWeight: 400 }}>{prop.precio}</p>
 
-          {/* Gallery */}
           {allImages.length > 0 ? (
             <div className="mb-12">
               <div className="relative mb-3" style={{ aspectRatio: "16/9" }}>
@@ -130,7 +131,6 @@ function PropiedadDetalle() {
             </div>
           )}
 
-          {/* Content 2 columns */}
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12">
             <div>
               <div className="mb-8" style={{ borderTop: "1px solid #c8b8a2", paddingTop: "2rem" }}>
@@ -161,7 +161,6 @@ function PropiedadDetalle() {
               )}
             </div>
 
-            {/* Sticky card */}
             <div>
               <div className="sticky top-24 p-6 border" style={{ borderColor: "rgba(0,0,0,0.08)", backgroundColor: "#fff" }}>
                 <p className="font-display text-2xl mb-1" style={{ color: "#0a0a0a", fontWeight: 400 }}>{prop.precio}</p>
@@ -192,6 +191,7 @@ function PropiedadDetalle() {
 
       <LandingFooter />
       <WhatsAppFloatingButton />
+      <ScrollToTop />
     </div>
   );
 }

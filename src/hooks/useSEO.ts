@@ -5,6 +5,7 @@ interface SEOOptions {
   description?: string;
   imageUrl?: string;
   type?: string;
+  noIndex?: boolean;
 }
 
 function setMeta(attr: string, attrValue: string, content: string) {
@@ -18,6 +19,12 @@ function setMeta(attr: string, attrValue: string, content: string) {
   el.setAttribute("content", content);
 }
 
+function removeMeta(attr: string, attrValue: string) {
+  if (typeof document === "undefined") return;
+  const el = document.querySelector(`meta[${attr}="${attrValue}"]`);
+  if (el) el.remove();
+}
+
 function setCanonical(url: string) {
   if (typeof document === "undefined") return;
   let el = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -29,7 +36,22 @@ function setCanonical(url: string) {
   el.setAttribute("href", url);
 }
 
-export function useSEO({ title, description, imageUrl, type = "website" }: SEOOptions) {
+function makeAbsolute(url: string): string {
+  if (typeof window === "undefined") return url;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `${window.location.origin}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
+const OG_PROPERTIES = [
+  "og:title", "og:description", "og:image", "og:type", "og:url",
+  "og:site_name", "og:locale",
+];
+const TWITTER_NAMES = [
+  "twitter:card", "twitter:title", "twitter:description", "twitter:image",
+];
+const META_NAMES = ["description", "robots"];
+
+export function useSEO({ title, description, imageUrl, type = "website", noIndex }: SEOOptions) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -48,13 +70,26 @@ export function useSEO({ title, description, imageUrl, type = "website" }: SEOOp
       setMeta("name", "twitter:description", description);
     }
 
-    if (imageUrl) {
-      setMeta("property", "og:image", imageUrl);
-      setMeta("name", "twitter:image", imageUrl);
+    const absImage = imageUrl ? makeAbsolute(imageUrl) : undefined;
+    if (absImage) {
+      setMeta("property", "og:image", absImage);
+      setMeta("name", "twitter:image", absImage);
     }
 
     setMeta("property", "og:type", type);
     setMeta("property", "og:url", canonicalUrl);
-    setMeta("name", "twitter:card", imageUrl ? "summary_large_image" : "summary");
-  }, [title, description, imageUrl, type]);
+    setMeta("property", "og:site_name", "Inmobiliaria Pérez-Campos");
+    setMeta("property", "og:locale", "es_CL");
+    setMeta("name", "twitter:card", absImage ? "summary_large_image" : "summary");
+
+    if (noIndex) {
+      setMeta("name", "robots", "noindex, nofollow");
+    }
+
+    return () => {
+      OG_PROPERTIES.forEach((p) => removeMeta("property", p));
+      TWITTER_NAMES.forEach((n) => removeMeta("name", n));
+      META_NAMES.forEach((n) => removeMeta("name", n));
+    };
+  }, [title, description, imageUrl, type, noIndex]);
 }
