@@ -1,20 +1,31 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LogIn } from "lucide-react";
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
+  head: () => ({
+    meta: [
+      { title: "Login — Panel Admin" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
 });
 
 function AdminLogin() {
-  const { signIn } = useAuth();
+  const { signIn, user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // If already authenticated, redirect
+  if (!authLoading && user) {
+    navigate({ to: "/admin" });
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,37 +42,118 @@ function AdminLogin() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div
+      className="flex min-h-screen items-center justify-center px-6"
+      style={{ backgroundColor: "#0a0a0a" }}
+    >
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <LogIn className="h-10 w-10 mx-auto text-primary mb-4" />
-          <h1 className="font-display text-2xl text-foreground">Panel Admin</h1>
-          <p className="text-sm text-muted-foreground mt-1">Inicia sesión para gestionar propiedades</p>
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <div
+            className="w-16 h-16 mx-auto flex items-center justify-center border mb-6"
+            style={{ borderColor: "rgba(255,255,255,0.2)" }}
+          >
+            <span className="font-display text-2xl tracking-widest" style={{ color: "#fff", fontWeight: 300 }}>
+              PC
+            </span>
+          </div>
+          <h1
+            className="font-display text-2xl mb-2"
+            style={{ color: "#fff", fontWeight: 300 }}
+          >
+            Panel de Administración
+          </h1>
+          <p
+            className="text-[13px] font-body"
+            style={{ color: "#9a9a9a", fontWeight: 300 }}
+          >
+            Inicia sesión para gestionar propiedades
+          </p>
         </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-destructive/10 text-destructive text-sm rounded-md p-3">{error}</div>
+            <div
+              className="text-sm p-3 border font-body"
+              style={{
+                borderColor: "rgba(255,80,80,0.3)",
+                backgroundColor: "rgba(255,80,80,0.05)",
+                color: "#ff6b6b",
+              }}
+            >
+              {error}
+            </div>
           )}
-          <Input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Button type="submit" className="w-full" disabled={loading}>
+          <div>
+            <label
+              className="block text-[11px] tracking-[0.15em] uppercase mb-2 font-body"
+              style={{ color: "#9a9a9a", fontWeight: 400 }}
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full h-11 px-4 text-sm font-body border outline-none focus:border-white/30 transition-colors"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.05)",
+                borderColor: "rgba(255,255,255,0.1)",
+                color: "#fff",
+                fontWeight: 300,
+              }}
+            />
+          </div>
+          <div>
+            <label
+              className="block text-[11px] tracking-[0.15em] uppercase mb-2 font-body"
+              style={{ color: "#9a9a9a", fontWeight: 400 }}
+            >
+              Contraseña
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full h-11 px-4 text-sm font-body border outline-none focus:border-white/30 transition-colors"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.05)",
+                borderColor: "rgba(255,255,255,0.1)",
+                color: "#fff",
+                fontWeight: 300,
+              }}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-11 text-[11px] tracking-[0.2em] uppercase border font-body transition-all duration-300 disabled:opacity-50"
+            style={{
+              borderColor: "rgba(255,255,255,0.3)",
+              color: "#fff",
+              backgroundColor: "transparent",
+              fontWeight: 400,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#fff";
+              e.currentTarget.style.color = "#0a0a0a";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "#fff";
+            }}
+          >
             {loading ? "Ingresando..." : "Ingresar"}
-          </Button>
+          </button>
         </form>
-        <div className="text-center mt-4">
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
+        <div className="text-center mt-6">
+          <Link
+            to="/"
+            className="text-[12px] font-body underline-anim"
+            style={{ color: "#9a9a9a", fontWeight: 300 }}
+          >
             ← Volver al sitio
           </Link>
         </div>
