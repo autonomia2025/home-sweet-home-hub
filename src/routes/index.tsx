@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { fetchPropiedadesActivas, fetchConfiguracion, subscribeToPropiedades, subscribeToConfiguracion } from "@/lib/supabase-helpers";
+import { fetchPropiedadesActivas, subscribeToPropiedades } from "@/lib/supabase-helpers";
 import type { Propiedad } from "@/lib/supabase-helpers";
+import { useConfig } from "@/context/ConfigContext";
+import { useSEO } from "@/hooks/useSEO";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { LandingProperties } from "@/components/landing/LandingProperties";
@@ -9,6 +11,7 @@ import { LandingAbout } from "@/components/landing/LandingAbout";
 import { LandingWhyUs } from "@/components/landing/LandingWhyUs";
 import { LandingHowItWorks } from "@/components/landing/LandingHowItWorks";
 import { LandingTestimonials } from "@/components/landing/LandingTestimonials";
+import { LandingFAQ } from "@/components/landing/LandingFAQ";
 import { LandingCoverage } from "@/components/landing/LandingCoverage";
 import { LandingCtaFinal } from "@/components/landing/LandingCtaFinal";
 import { LandingFooter } from "@/components/landing/LandingFooter";
@@ -28,60 +31,65 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const { loading: configLoading } = useConfig();
   const [propiedades, setPropiedades] = useState<Propiedad[]>([]);
-  const [config, setConfig] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
+  const [propsLoading, setPropsLoading] = useState(true);
+  const [showSkeleton, setShowSkeleton] = useState(false);
+
+  // SEO with dynamic OG image
+  const ogImage = propiedades.length > 0 && propiedades[0].imagen_url
+    ? propiedades[0].imagen_url
+    : "/og-default.jpg";
+
+  useSEO({
+    title: "Inmobiliaria Pérez-Campos | Propiedades en venta y arriendo en Chile",
+    description: "Propiedades únicas en Santiago y costa chilena. Trato directo y personalizado. Inmobiliaria Pérez-Campos.",
+    imageUrl: ogImage,
+  });
 
   useEffect(() => {
-    Promise.all([fetchPropiedadesActivas(), fetchConfiguracion()])
-      .then(([props, conf]) => {
-        setPropiedades(props);
-        setConfig(conf);
-      })
-      .finally(() => setLoading(false));
+    const timer = setTimeout(() => setShowSkeleton(true), 300);
+    fetchPropiedadesActivas()
+      .then(setPropiedades)
+      .catch(console.error)
+      .finally(() => {
+        clearTimeout(timer);
+        setPropsLoading(false);
+      });
+    return () => clearTimeout(timer);
   }, []);
 
-  // Realtime: auto-update when admin changes data
   useEffect(() => {
-    const unsubProps = subscribeToPropiedades(() => {
+    const unsub = subscribeToPropiedades(() => {
       fetchPropiedadesActivas().then(setPropiedades).catch(console.error);
     });
-    const unsubConfig = subscribeToConfiguracion(() => {
-      fetchConfiguracion().then(setConfig).catch(console.error);
-    });
-    return () => { unsubProps(); unsubConfig(); };
+    return unsub;
   }, []);
 
-  if (loading) {
+  const isLoading = configLoading || (propsLoading && showSkeleton);
+
+  if (configLoading && !showSkeleton) {
     return (
-      <div
-        className="flex items-center justify-center min-h-screen"
-        style={{ backgroundColor: "#0a0a0a" }}
-      >
-        <span className="font-display text-2xl text-foreground/30 tracking-widest" style={{ fontWeight: 300 }}>
-          PC
-        </span>
+      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#0a0a0a" }}>
+        <span className="font-display text-2xl text-foreground/30 tracking-widest" style={{ fontWeight: 300 }}>PC</span>
       </div>
     );
   }
 
-  const nombre = config.nombre_inmobiliaria || "Inmobiliaria Pérez-Campos";
-  const whatsapp = config.whatsapp || "+56912345678";
-  const presentacion = config.presentacion || "";
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#0a0a0a" }}>
-      <LandingNavbar nombre={nombre} />
+      <LandingNavbar />
       <LandingHero />
-      <LandingProperties propiedades={propiedades} whatsapp={whatsapp} />
-      <LandingAbout presentacion={presentacion} />
+      <LandingProperties propiedades={propiedades} loading={propsLoading && showSkeleton} />
+      <LandingAbout />
       <LandingWhyUs />
       <LandingHowItWorks />
       <LandingTestimonials />
+      <LandingFAQ />
       <LandingCoverage />
-      <LandingCtaFinal whatsapp={whatsapp} />
-      <LandingFooter nombre={nombre} whatsapp={whatsapp} />
-      <WhatsAppFloatingButton whatsapp={whatsapp} />
+      <LandingCtaFinal />
+      <LandingFooter />
+      <WhatsAppFloatingButton />
     </div>
   );
 }
