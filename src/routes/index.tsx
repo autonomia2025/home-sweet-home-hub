@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { fetchPropiedadesActivas, fetchConfiguracion } from "@/lib/supabase-helpers";
+import { fetchPropiedadesActivas, fetchConfiguracion, subscribeToPropiedades, subscribeToConfiguracion } from "@/lib/supabase-helpers";
 import type { Propiedad } from "@/lib/supabase-helpers";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingHero } from "@/components/landing/LandingHero";
