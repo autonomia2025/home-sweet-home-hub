@@ -23,7 +23,6 @@ export function LandingFAQ() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading && !showSkeleton) return null;
   if (faqs.length === 0 && !loading) return null;
 
   // JSON-LD structured data
@@ -61,7 +60,9 @@ export function LandingFAQ() {
           Preguntas frecuentes
         </h2>
 
-        {loading && showSkeleton ? (
+        {loading && !showSkeleton ? (
+          <div className="min-h-40" />
+        ) : loading && showSkeleton ? (
           <div>
             {Array.from({ length: 5 }).map((_, i) => (
               <SkeletonFAQRow key={i} />
