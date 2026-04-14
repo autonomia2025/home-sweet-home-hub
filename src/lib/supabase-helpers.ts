@@ -1,5 +1,13 @@
 import { supabase } from "@/integrations/supabase/client";
 
+export type Caracteristicas = {
+  superficie_m2?: number;
+  dormitorios?: number;
+  banos?: number;
+  estacionamiento?: boolean;
+  bodega?: boolean;
+};
+
 export type Propiedad = {
   id: string;
   titulo: string;
@@ -11,6 +19,10 @@ export type Propiedad = {
   activa: boolean;
   orden: number;
   created_at: string;
+  imagenes: string[];
+  descripcion_larga: string | null;
+  caracteristicas: Caracteristicas;
+  ubicacion_referencia: string | null;
 };
 
 export type Configuracion = {
@@ -102,7 +114,7 @@ export async function updateConfiguracion(clave: string, valor: string) {
 }
 
 export async function uploadImage(file: File): Promise<string> {
-  const fileName = `${Date.now()}-${file.name}`;
+  const fileName = `${crypto.randomUUID()}-${Date.now()}.${file.name.split('.').pop()}`;
   const { error } = await supabase.storage
     .from("propiedades-imgs")
     .upload(fileName, file);
@@ -111,4 +123,21 @@ export async function uploadImage(file: File): Promise<string> {
     .from("propiedades-imgs")
     .getPublicUrl(fileName);
   return data.publicUrl;
+}
+
+export async function deleteStorageImage(url: string) {
+  const parts = url.split("/propiedades-imgs/");
+  if (parts.length < 2) return;
+  const path = decodeURIComponent(parts[1]);
+  await supabase.storage.from("propiedades-imgs").remove([path]);
+}
+
+export async function fetchPropiedadById(id: string) {
+  const { data, error } = await supabase
+    .from("propiedades")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) throw error;
+  return data as Propiedad;
 }
