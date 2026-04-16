@@ -75,15 +75,14 @@ function PropiedadDetalle() {
         <div className="max-w-6xl mx-auto">
           <Link
             to="/"
-            hash="propiedades"
-            className="inline-flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-body mb-10 transition-opacity hover:opacity-60"
+            className="flex w-fit items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-body mb-6 transition-opacity hover:opacity-60"
             style={{ color: "#2c3e2c", fontWeight: 400 }}
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Volver
           </Link>
 
           <span
-            className="inline-block text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-4 font-body text-white"
+            className="inline-block text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-5 font-body text-white"
             style={{ backgroundColor: "rgba(10,10,10,0.85)", fontWeight: 400 }}
           >
             {prop.tipo === "venta" ? "VENTA" : "ARRIENDO"}

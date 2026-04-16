@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { ConfigProvider } from "@/context/ConfigContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
 
@@ -73,6 +74,7 @@ function RootComponent() {
     <AuthProvider>
       <ConfigProvider>
         <Outlet />
+        <Toaster position="top-right" />
       </ConfigProvider>
     </AuthProvider>
   );
