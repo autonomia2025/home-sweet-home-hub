@@ -13,7 +13,6 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminProperties } from "@/components/admin/AdminProperties";
 import { AdminConfig } from "@/components/admin/AdminConfig";
 import { AdminFAQs } from "@/components/admin/AdminFAQs";
-import { Toaster } from "sonner";
 import { useConfig } from "@/context/ConfigContext";
 import { useSEO } from "@/hooks/useSEO";
 
@@ -35,6 +34,7 @@ function AdminPanel() {
   const [config, setConfig] = useState<Record<string, string>>({});
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<"propiedades" | "configuracion" | "faqs">("propiedades");
 
   useSEO({ title: "Admin | Inmobiliaria Pérez-Campos", noIndex: true });
@@ -46,6 +46,7 @@ function AdminPanel() {
   }, [user, authLoading, navigate]);
 
   const loadData = useCallback(async () => {
+    setLoadError(null);
     try {
       const [props, conf, faqData] = await Promise.all([
         fetchAllPropiedades(),
@@ -55,13 +56,18 @@ function AdminPanel() {
       setPropiedades(props);
       setConfig(conf);
       setFaqs(faqData);
+    } catch (error) {
+      console.error(error);
+      setLoadError("No se pudieron cargar los datos del panel.");
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (user) loadData();
+    if (user) {
+      void loadData();
+    }
   }, [user, loadData]);
 
   useEffect(() => {
@@ -93,7 +99,6 @@ function AdminPanel() {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: "#fafaf8" }}>
-      <Toaster position="top-right" />
       <AdminSidebar activeSection={activeSection} onChangeSection={setActiveSection} />
 
       <main className="flex-1 min-w-0">
@@ -107,6 +112,19 @@ function AdminPanel() {
           {loading ? (
             <div className="flex items-center justify-center py-20">
               <span className="text-sm font-body" style={{ color: "#8a7a6a", fontWeight: 300 }}>Cargando datos...</span>
+            </div>
+          ) : loadError ? (
+            <div className="border p-6 max-w-xl" style={{ borderColor: "rgba(0,0,0,0.08)", backgroundColor: "#fff" }}>
+              <p className="text-sm font-body mb-4" style={{ color: "#8a7a6a", fontWeight: 300 }}>
+                {loadError}
+              </p>
+              <button
+                onClick={() => void loadData()}
+                className="px-4 py-2 text-[11px] tracking-[0.15em] uppercase font-body border transition-all duration-300 hover:bg-[#2c3e2c] hover:text-white"
+                style={{ borderColor: "#2c3e2c", color: "#2c3e2c", fontWeight: 400 }}
+              >
+                Reintentar
+              </button>
             </div>
           ) : activeSection === "propiedades" ? (
             <AdminProperties propiedades={propiedades} onRefresh={loadData} />

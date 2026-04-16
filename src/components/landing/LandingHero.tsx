@@ -59,13 +59,13 @@ export function LandingHero() {
       id="hero"
       ref={heroRef}
       className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden"
-      style={{ backgroundColor: "#1a2419" }}
+      style={{ backgroundColor: "#ffffff" }}
     >
       <img
         src={heroBg}
         alt="Casa moderna frente al mar en Chile"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.5 }}
+        className="absolute inset-0 w-full h-full object-cover object-[center_35%] scale-95 md:scale-100 md:object-center"
+        style={{ opacity: 0.4 }}
         width={1920}
         height={1080}
       />
@@ -73,7 +73,7 @@ export function LandingHero() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(20,30,20,0.55) 0%, rgba(20,30,20,0.3) 50%, rgba(20,30,20,0.75) 100%)",
+            "linear-gradient(180deg, rgba(15,15,15,0.72) 0%, rgba(15,15,15,0.56) 50%, rgba(15,15,15,0.84) 100%)",
         }}
       />
       <div className="relative z-10 text-center max-w-5xl mx-auto">
