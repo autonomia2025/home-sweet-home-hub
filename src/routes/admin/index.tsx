@@ -84,7 +84,9 @@ function AdminPanel() {
   if (authLoading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#faf8f5" }}>
-        <span className="font-display text-xl" style={{ color: "#ccc", fontWeight: 300 }}>Cargando...</span>
+        <span className="font-display text-xl" style={{ color: "#2c3e2c", fontWeight: 300 }}>
+          {authLoading ? "Verificando sesión..." : "Redirigiendo..."}
+        </span>
       </div>
     );
   }
