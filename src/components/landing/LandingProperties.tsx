@@ -31,13 +31,13 @@ export function LandingProperties({ propiedades, loading }: LandingPropertiesPro
     <section
       id="propiedades"
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#f5f5f3" }}
+      style={{ backgroundColor: "#faf8f5" }}
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto">
         <h2
           className="reveal-hidden font-display text-3xl md:text-5xl mb-12 text-center"
-          style={{ color: "#0a0a0a", fontWeight: 300 }}
+          style={{ color: "#2c3e2c", fontWeight: 300 }}
         >
           Propiedades disponibles
         </h2>
@@ -49,9 +49,9 @@ export function LandingProperties({ propiedades, loading }: LandingPropertiesPro
               onClick={() => setFilter(f.key)}
               className="text-[11px] tracking-[0.2em] uppercase font-body pb-2 transition-all duration-300"
               style={{
-                color: filter === f.key ? "#0a0a0a" : "#9a9a9a",
+                color: filter === f.key ? "#2c3e2c" : "#8a7a6a",
                 fontWeight: 400,
-                borderBottom: filter === f.key ? "2px solid #c8b8a2" : "2px solid transparent",
+                borderBottom: filter === f.key ? "2px solid #5a7a5a" : "2px solid transparent",
               }}
             >
               {f.label}
@@ -73,7 +73,7 @@ export function LandingProperties({ propiedades, loading }: LandingPropertiesPro
               ))}
             </div>
             {filtered.length === 0 && (
-              <p className="text-center font-body text-sm" style={{ color: "#9a9a9a", fontWeight: 300 }}>
+              <p className="text-center font-body text-sm" style={{ color: "#8a7a6a", fontWeight: 300 }}>
                 No hay propiedades disponibles en esta categoría por ahora.
               </p>
             )}
@@ -95,7 +95,7 @@ function PropertyCardEditorial({ propiedad, delay }: { propiedad: Propiedad; del
     <div
       className="reveal-hidden group bg-white transition-all duration-500 hover:-translate-y-1.5"
       data-reveal-delay={delay}
-      style={{ borderLeft: "2px solid #c8b8a2" }}
+      style={{ borderLeft: "2px solid #5a7a5a" }}
     >
       <Link to="/propiedad/$id" params={{ id: propiedad.id }} className="block">
         <div className="relative" style={{ aspectRatio: "4/3" }}>
@@ -103,7 +103,7 @@ function PropertyCardEditorial({ propiedad, delay }: { propiedad: Propiedad; del
             <img src={propiedad.imagen_url} alt={propiedad.titulo} className="w-full h-full object-cover" loading="lazy" />
           ) : (
             <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "#e8e8e5" }}>
-              <span className="text-sm font-body" style={{ color: "#9a9a9a" }}>Sin imagen</span>
+              <span className="text-sm font-body" style={{ color: "#8a7a6a" }}>Sin imagen</span>
             </div>
           )}
           <span className="absolute top-4 left-4 text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 text-white font-body" style={{ backgroundColor: "rgba(10,10,10,0.8)", fontWeight: 400 }}>
@@ -114,15 +114,15 @@ function PropertyCardEditorial({ propiedad, delay }: { propiedad: Propiedad; del
 
       <div className="p-6">
         <Link to="/propiedad/$id" params={{ id: propiedad.id }} className="block">
-          <h3 className="font-display text-xl md:text-2xl mb-2 hover:opacity-70 transition-opacity" style={{ color: "#0a0a0a", fontWeight: 400 }}>
+          <h3 className="font-display text-xl md:text-2xl mb-2 hover:opacity-70 transition-opacity" style={{ color: "#2c3e2c", fontWeight: 400 }}>
             {propiedad.titulo}
           </h3>
         </Link>
 
         {propiedad.comuna && (
           <div className="flex items-center gap-1.5 mb-3">
-            <MapPin className="h-3 w-3" style={{ color: "#9a9a9a" }} />
-            <span className="text-xs font-body" style={{ color: "#9a9a9a", fontWeight: 300 }}>{propiedad.comuna}</span>
+            <MapPin className="h-3 w-3" style={{ color: "#8a7a6a" }} />
+            <span className="text-xs font-body" style={{ color: "#8a7a6a", fontWeight: 300 }}>{propiedad.comuna}</span>
           </div>
         )}
 
@@ -132,7 +132,7 @@ function PropertyCardEditorial({ propiedad, delay }: { propiedad: Propiedad; del
           </p>
         )}
 
-        <p className="font-display text-lg mb-4" style={{ color: "#0a0a0a", fontWeight: 400 }}>{propiedad.precio}</p>
+        <p className="font-display text-lg mb-4" style={{ color: "#2c3e2c", fontWeight: 400 }}>{propiedad.precio}</p>
 
         <div className="line-separator-light mb-4" />
 
@@ -141,7 +141,7 @@ function PropertyCardEditorial({ propiedad, delay }: { propiedad: Propiedad; del
           target="_blank"
           rel="noopener noreferrer"
           className="underline-anim text-[11px] tracking-[0.15em] uppercase font-body"
-          style={{ color: "#0a0a0a", fontWeight: 400 }}
+          style={{ color: "#2c3e2c", fontWeight: 400 }}
         >
           Consultar por WhatsApp
         </a>

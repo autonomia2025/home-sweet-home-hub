@@ -68,7 +68,7 @@ function PropiedadDetalle() {
   const hasChars = Object.values(chars).some((v) => v !== undefined && v !== null);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#f5f5f3" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#faf8f5" }}>
       <LandingNavbar />
 
       <div className="pt-24 pb-16 px-6">
@@ -80,7 +80,7 @@ function PropiedadDetalle() {
               window.location.href = "/#propiedades";
             }}
             className="inline-flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-body mb-8 transition-opacity hover:opacity-60"
-            style={{ color: "#0a0a0a", fontWeight: 400 }}
+            style={{ color: "#2c3e2c", fontWeight: 400 }}
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Volver
           </a>
@@ -94,19 +94,19 @@ function PropiedadDetalle() {
 
           <h1
             className="font-display mb-3"
-            style={{ color: "#0a0a0a", fontWeight: 300, fontSize: "clamp(2rem, 6vw, 5rem)", lineHeight: 1.1 }}
+            style={{ color: "#2c3e2c", fontWeight: 300, fontSize: "clamp(2rem, 6vw, 5rem)", lineHeight: 1.1 }}
           >
             {prop.titulo}
           </h1>
 
           {prop.comuna && (
             <div className="flex items-center gap-2 mb-2">
-              <MapPin className="h-4 w-4" style={{ color: "#9a9a9a" }} />
-              <span className="text-sm font-body" style={{ color: "#9a9a9a", fontWeight: 300 }}>{prop.comuna}</span>
+              <MapPin className="h-4 w-4" style={{ color: "#8a7a6a" }} />
+              <span className="text-sm font-body" style={{ color: "#8a7a6a", fontWeight: 300 }}>{prop.comuna}</span>
             </div>
           )}
 
-          <p className="font-display text-2xl mb-8" style={{ color: "#0a0a0a", fontWeight: 400 }}>{prop.precio}</p>
+          <p className="font-display text-2xl mb-8" style={{ color: "#2c3e2c", fontWeight: 400 }}>{prop.precio}</p>
 
           {allImages.length > 0 ? (
             <div className="mb-12">
@@ -120,7 +120,7 @@ function PropiedadDetalle() {
                       key={i}
                       onClick={() => setActiveImg(i)}
                       className="shrink-0 w-20 h-20 overflow-hidden transition-opacity"
-                      style={{ opacity: i === activeImg ? 1 : 0.5, border: i === activeImg ? "2px solid #c8b8a2" : "2px solid transparent" }}
+                      style={{ opacity: i === activeImg ? 1 : 0.5, border: i === activeImg ? "2px solid #5a7a5a" : "2px solid transparent" }}
                     >
                       <img src={img} alt="" className="w-full h-full object-cover" />
                     </button>
@@ -136,8 +136,8 @@ function PropiedadDetalle() {
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12">
             <div>
-              <div className="mb-8" style={{ borderTop: "1px solid #c8b8a2", paddingTop: "2rem" }}>
-                <h2 className="font-display text-2xl mb-4" style={{ color: "#0a0a0a", fontWeight: 300 }}>Descripción</h2>
+              <div className="mb-8" style={{ borderTop: "1px solid #5a7a5a", paddingTop: "2rem" }}>
+                <h2 className="font-display text-2xl mb-4" style={{ color: "#2c3e2c", fontWeight: 300 }}>Descripción</h2>
                 <p className="font-body text-sm leading-relaxed whitespace-pre-line" style={{ color: "#6a6a6a", fontWeight: 300 }}>
                   {prop.descripcion_larga || prop.descripcion || "Sin descripción disponible."}
                 </p>
@@ -145,7 +145,7 @@ function PropiedadDetalle() {
 
               {hasChars && (
                 <div className="mb-8" style={{ borderTop: "1px solid rgba(0,0,0,0.06)", paddingTop: "2rem" }}>
-                  <h2 className="font-display text-2xl mb-6" style={{ color: "#0a0a0a", fontWeight: 300 }}>Características</h2>
+                  <h2 className="font-display text-2xl mb-6" style={{ color: "#2c3e2c", fontWeight: 300 }}>Características</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {chars.superficie_m2 != null && <CharItem icon={<Ruler className="h-4 w-4" />} label="Superficie" value={`${chars.superficie_m2} m²`} />}
                     {chars.dormitorios != null && <CharItem icon={<BedDouble className="h-4 w-4" />} label="Dormitorios" value={String(chars.dormitorios)} />}
@@ -158,7 +158,7 @@ function PropiedadDetalle() {
 
               {prop.ubicacion_referencia && (
                 <div className="flex items-center gap-2 mb-8">
-                  <MapPin className="h-4 w-4" style={{ color: "#c8b8a2" }} />
+                  <MapPin className="h-4 w-4" style={{ color: "#5a7a5a" }} />
                   <span className="font-body text-sm" style={{ color: "#6a6a6a", fontWeight: 300 }}>{prop.ubicacion_referencia}</span>
                 </div>
               )}
@@ -166,8 +166,8 @@ function PropiedadDetalle() {
 
             <div>
               <div className="sticky top-24 p-6 border" style={{ borderColor: "rgba(0,0,0,0.08)", backgroundColor: "#fff" }}>
-                <p className="font-display text-2xl mb-1" style={{ color: "#0a0a0a", fontWeight: 400 }}>{prop.precio}</p>
-                <span className="text-[10px] tracking-[0.15em] uppercase font-body" style={{ color: "#9a9a9a", fontWeight: 400 }}>
+                <p className="font-display text-2xl mb-1" style={{ color: "#2c3e2c", fontWeight: 400 }}>{prop.precio}</p>
+                <span className="text-[10px] tracking-[0.15em] uppercase font-body" style={{ color: "#8a7a6a", fontWeight: 400 }}>
                   {prop.tipo === "venta" ? "Venta" : "Arriendo"}
                 </span>
                 <div className="my-5" style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }} />
@@ -175,16 +175,16 @@ function PropiedadDetalle() {
                   href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-center text-[11px] tracking-[0.15em] uppercase font-body py-3 border transition-all duration-300 hover:bg-[#0a0a0a] hover:text-white mb-3"
-                  style={{ borderColor: "#0a0a0a", color: "#0a0a0a", fontWeight: 400 }}
+                  className="block text-center text-[11px] tracking-[0.15em] uppercase font-body py-3 border transition-all duration-300 hover:bg-[#2c3e2c] hover:text-white mb-3"
+                  style={{ borderColor: "#2c3e2c", color: "#2c3e2c", fontWeight: 400 }}
                 >
                   Consultar por WhatsApp
                 </a>
-                <p className="text-xs font-body text-center mb-5" style={{ color: "#9a9a9a", fontWeight: 300 }}>Respondemos el mismo día</p>
+                <p className="text-xs font-body text-center mb-5" style={{ color: "#8a7a6a", fontWeight: 300 }}>Respondemos el mismo día</p>
                 <div className="my-5" style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }} />
-                <p className="text-xs font-body text-center" style={{ color: "#9a9a9a", fontWeight: 300 }}>
+                <p className="text-xs font-body text-center" style={{ color: "#8a7a6a", fontWeight: 300 }}>
                   ¿Tienes dudas?{" "}
-                  <a href={waLink} target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#0a0a0a" }}>Escríbenos</a>
+                  <a href={waLink} target="_blank" rel="noopener noreferrer" className="underline" style={{ color: "#2c3e2c" }}>Escríbenos</a>
                 </p>
               </div>
             </div>
@@ -202,10 +202,10 @@ function PropiedadDetalle() {
 function CharItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-center gap-3 py-2">
-      <span style={{ color: "#c8b8a2" }}>{icon}</span>
+      <span style={{ color: "#5a7a5a" }}>{icon}</span>
       <div>
-        <span className="block text-[10px] tracking-[0.1em] uppercase font-body" style={{ color: "#9a9a9a", fontWeight: 400 }}>{label}</span>
-        <span className="text-sm font-body" style={{ color: "#0a0a0a", fontWeight: 400 }}>{value}</span>
+        <span className="block text-[10px] tracking-[0.1em] uppercase font-body" style={{ color: "#8a7a6a", fontWeight: 400 }}>{label}</span>
+        <span className="text-sm font-body" style={{ color: "#2c3e2c", fontWeight: 400 }}>{value}</span>
       </div>
     </div>
   );
@@ -213,7 +213,7 @@ function CharItem({ icon, label, value }: { icon: React.ReactNode; label: string
 
 function DetailSkeleton() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#f5f5f3" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#faf8f5" }}>
       <LandingNavbar />
       <div className="pt-24 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
@@ -240,11 +240,11 @@ function DetailSkeleton() {
 
 function ErrorState() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: "#f5f5f3" }}>
+    <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: "#faf8f5" }}>
       <div className="text-center">
-        <h1 className="font-display text-3xl mb-4" style={{ color: "#0a0a0a", fontWeight: 300 }}>Esta propiedad no está disponible</h1>
-        <p className="font-body text-sm mb-8" style={{ color: "#9a9a9a", fontWeight: 300 }}>Es posible que haya sido removida o que el enlace sea incorrecto.</p>
-        <Link to="/" className="inline-block text-[11px] tracking-[0.15em] uppercase font-body py-3 px-6 border transition-all duration-300 hover:bg-[#0a0a0a] hover:text-white" style={{ borderColor: "#0a0a0a", color: "#0a0a0a", fontWeight: 400 }}>
+        <h1 className="font-display text-3xl mb-4" style={{ color: "#2c3e2c", fontWeight: 300 }}>Esta propiedad no está disponible</h1>
+        <p className="font-body text-sm mb-8" style={{ color: "#8a7a6a", fontWeight: 300 }}>Es posible que haya sido removida o que el enlace sea incorrecto.</p>
+        <Link to="/" className="inline-block text-[11px] tracking-[0.15em] uppercase font-body py-3 px-6 border transition-all duration-300 hover:bg-[#2c3e2c] hover:text-white" style={{ borderColor: "#2c3e2c", color: "#2c3e2c", fontWeight: 400 }}>
           Volver al inicio
         </Link>
       </div>

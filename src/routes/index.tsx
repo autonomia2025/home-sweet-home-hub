@@ -64,14 +64,14 @@ function HomePage() {
 
   if (configLoading && !showSkeleton) {
     return (
-      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#0a0a0a" }}>
+      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#2c3e2c" }}>
         <span className="font-display text-2xl text-foreground/30 tracking-widest" style={{ fontWeight: 300 }}>PC</span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#0a0a0a" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#2c3e2c" }}>
       <LandingNavbar />
       <LandingHero />
       <LandingProperties propiedades={propiedades} loading={propsLoading && showSkeleton} />

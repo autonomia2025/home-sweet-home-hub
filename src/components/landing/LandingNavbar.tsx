@@ -21,7 +21,7 @@ export function LandingNavbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "border-b border-border" : ""
       }`}
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: "#2c3e2c" }}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-4">

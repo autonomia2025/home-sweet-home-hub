@@ -13,13 +13,13 @@ export function LandingWhyUs() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#f5f5f3" }}
+      style={{ backgroundColor: "#faf8f5" }}
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto">
         <h2
           className="reveal-hidden font-display text-3xl md:text-5xl text-center mb-20"
-          style={{ color: "#0a0a0a", fontWeight: 300 }}
+          style={{ color: "#2c3e2c", fontWeight: 300 }}
         >
           Por qué elegirnos
         </h2>
@@ -33,13 +33,13 @@ export function LandingWhyUs() {
             >
               <span
                 className="font-display text-5xl md:text-6xl block mb-6"
-                style={{ color: "#c8b8a2", fontWeight: 300 }}
+                style={{ color: "#5a7a5a", fontWeight: 300 }}
               >
                 {item.numeral}
               </span>
               <h3
                 className="font-display text-xl mb-3"
-                style={{ color: "#0a0a0a", fontWeight: 400 }}
+                style={{ color: "#2c3e2c", fontWeight: 400 }}
               >
                 {item.title}
               </h3>

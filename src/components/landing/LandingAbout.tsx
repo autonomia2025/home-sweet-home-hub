@@ -10,7 +10,7 @@ export function LandingAbout() {
     <section
       id="nosotros"
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: "#2c3e2c" }}
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
