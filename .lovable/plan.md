@@ -1,39 +1,70 @@
 
 
-## Diagnóstico
+## Plan: Reemplazar mapa SVG por Leaflet real + mejoras mobile
 
-El crash de `/admin` ("Something went wrong") es un error de runtime de React:
-```
-TypeError: Cannot read properties of null (reading 'removeChild')
-```
+### Lo que voy a hacer
 
-**Causa raíz:** doble manipulación del `<head>`:
-- TanStack Router controla los meta tags vía `head()` + `<HeadContent />` en `__root.tsx`.
-- El hook `useSEO` (usado en `/admin` y `/propiedad/$id`) inserta y luego **remueve** manualmente meta/canonical del DOM en su cleanup.
+**1. Instalar dependencias**
+- `leaflet`, `react-leaflet`, `@types/leaflet`
 
-Cuando navegas o React re-renderiza, el cleanup de `useSEO` borra nodos que React ya tiene referenciados → `removeChild` sobre un padre `null` → error fatal que el ErrorBoundary muestra como "Something went wrong".
+**2. Refactor `LandingMap.tsx`**
 
-Las columnas `lat`/`lng` ya existen en DB (verificado en el schema), así que ese ya **no** es el problema.
+Eliminar: SVG completo, `BBOX`, `MAP_W`, `MAP_H`, `project()`, import de `MapPin` si ya no se usa.
 
-## Plan de fix
+Mantener: header de sección, lista derecha (desktop), colores/tipografía, tooltip card.
 
-1. **Eliminar `useSEO` de las rutas** (`src/routes/admin/index.tsx` y `src/routes/propiedad.$id.tsx`). Reemplazar por la API nativa `head()` de TanStack Router que ya está parcialmente en uso. Para `/propiedad/$id` el título se setea con un `head()` estático simple (el dinámico por loader vendría después si lo querés).
+Agregar mapa Leaflet (desktop):
+- `MapContainer` centro `[-33.8, -71.2]`, zoom 8, altura 520px
+- Tiles **CartoDB Voyager** (estética limpia, coherente con paleta cálida)
+- Sin `zoomControl` ni `attributionControl` visibles → atribución como texto chico al pie del mapa (requerimiento legal de las tiles, no se puede omitir)
+- `dragging` desactivado en mobile, activo en desktop
+- Markers custom con `divIcon` (círculo verde oscuro `#2c3e2c` con halo `rgba(90,122,90,0.25)`), tamaño según `activeId`
+- Click en marker → `setActiveId(p.id)` (resalta item en lista)
+- Hover en item lista → marker correspondiente se agranda (vía `activeId` ya existente)
+- Click en item lista → `map.flyTo([lat, lng], 12)` usando `useRef` al map instance + abrir tooltip
+- Fix CSS Leaflet (`import "leaflet/dist/leaflet.css"`) + fix iconos default
 
-2. **Borrar el archivo `src/hooks/useSEO.ts`** (ya no se usa en ningún lado) para evitar que vuelva a usarse por error.
+### Mejora mobile (mi propuesta)
 
-3. **Hacer `loadData` robusto** en `src/routes/admin/index.tsx` con `Promise.allSettled`, así un fallo parcial (ej. una tabla vacía) no rompe todo el panel.
+Hoy en mobile solo ves la lista — sin contexto geográfico. Propongo **mapa también en mobile, compacto y ligado a la lista**:
 
-4. **Quitar `useSEO` del helper de detalle de propiedad** y mantener un `head()` con título genérico "Propiedad — Pérez-Campos".
+**Layout mobile:**
+- Mapa arriba: 280px de alto, **sticky** cuando scrolleas la lista (se queda fijo arriba)
+- `dragging={false}`, `scrollWheelZoom={false}`, `touchZoom={false}` → no interfiere con scroll vertical de la página
+- Lista debajo: cards horizontales como ya están
+- Al tocar una card → mapa hace `flyTo` suave + marker se resalta + card activa con borde verde más grueso
 
-## Archivos afectados
+Beneficios:
+- Usuario ve dónde queda cada propiedad sin abrir nada
+- Mapa "sigue" la exploración sin pelearse con el scroll touch
+- Touch-friendly (no requiere gestos de mapa)
 
-- `src/routes/admin/index.tsx` — quitar useSEO + Promise.allSettled
-- `src/routes/propiedad.$id.tsx` — quitar useSEO, agregar `head()` estático
-- `src/hooks/useSEO.ts` — eliminar
+**Alternativa más simple:** mapa estático arriba (280px) sin sticky, lista debajo. Más predecible, menos código.
 
-## Lo que NO toco
+### Preguntas / decisiones abiertas
 
-- `LandingHero`, `AdminConfig`, `ConfigContext` — ya funcionan bien
-- DB schema — `lat`/`lng` ya existen
-- Toaster — ya está en `__root.tsx`
+Antes de codear necesito que confirmes dos cosas:
+
+1. **Mobile UX:**
+   a) Mapa sticky arriba + lista scrolleable (mi recomendación)
+   b) Mapa estático arriba + lista debajo (más simple)
+   c) Solo lista, sin mapa en mobile (ahorra peso de Leaflet ~40KB gzip)
+
+2. **Click en item de lista (desktop):**
+   a) `flyTo` + zoom 12 + abrir tooltip de la card sobre el mapa
+   b) Solo `flyTo` + zoom 12, sin tooltip (más limpio)
+   c) Ir directo a `/propiedad/$id` como hoy (más conversión, ignora el mapa)
+
+### Archivos afectados
+
+- `src/components/landing/LandingMap.tsx` — reescritura del bloque del mapa
+- `package.json` — 3 deps nuevas (`leaflet`, `react-leaflet`, `@types/leaflet`)
+
+### Lo que NO toco
+
+- Header de sección, lista derecha, versión de tipografía/colores
+- Schema DB (`lat`/`lng` ya existen)
+- Resto de la landing
+
+Decime qué opción elegís en cada pregunta y arranco.
 
