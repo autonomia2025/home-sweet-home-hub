@@ -131,11 +131,24 @@ export function subscribeToConfiguracion(callback: () => void) {
 }
 
 export async function updateConfiguracion(clave: string, valor: string) {
-  const { error } = await (supabase
+  // Upsert: update if exists, insert otherwise
+  const { data: existing } = await supabase
     .from("configuracion")
-    .update({ valor } as any)
-    .eq("clave", clave) as any);
-  if (error) throw error;
+    .select("id")
+    .eq("clave", clave)
+    .maybeSingle();
+  if (existing) {
+    const { error } = await (supabase
+      .from("configuracion")
+      .update({ valor } as any)
+      .eq("clave", clave) as any);
+    if (error) throw error;
+  } else {
+    const { error } = await (supabase
+      .from("configuracion")
+      .insert({ clave, valor } as any) as any);
+    if (error) throw error;
+  }
 }
 
 // ── FAQs ──
