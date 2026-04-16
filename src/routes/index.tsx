@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { fetchPropiedadesActivas, subscribeToPropiedades } from "@/lib/supabase-helpers";
 import type { Propiedad } from "@/lib/supabase-helpers";
 import { useConfig } from "@/context/ConfigContext";
-import { useSEO } from "@/hooks/useSEO";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { LandingProperties } from "@/components/landing/LandingProperties";
@@ -37,12 +36,6 @@ function HomePage() {
   const [propiedades, setPropiedades] = useState<Propiedad[]>([]);
   const [propsLoading, setPropsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
-
-  useSEO({
-    title: "Inmobiliaria Pérez-Campos | Propiedades en venta y arriendo en Chile",
-    description: "Propiedades únicas en Santiago y costa chilena. Trato directo y personalizado. Inmobiliaria Pérez-Campos.",
-    imageUrl: "/og-default.jpg",
-  });
 
   useEffect(() => {
     const timer = setTimeout(() => setShowSkeleton(true), 300);

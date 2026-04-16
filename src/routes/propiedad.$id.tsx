@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { fetchPropiedadById } from "@/lib/supabase-helpers";
 import type { Propiedad, Caracteristicas } from "@/lib/supabase-helpers";
 import { useConfig } from "@/context/ConfigContext";
-import { useSEO } from "@/hooks/useSEO";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { WhatsAppFloatingButton } from "@/components/landing/WhatsAppFloatingButton";
@@ -31,13 +30,6 @@ function PropiedadDetalle() {
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
-
-  useSEO({
-    title: prop ? `${prop.titulo} | Inmobiliaria Pérez-Campos` : undefined,
-    description: prop ? `${prop.descripcion || ""} — ${prop.comuna || ""}` : undefined,
-    imageUrl: prop?.imagen_url || undefined,
-    type: "article",
-  });
 
   useEffect(() => {
     const timer = setTimeout(() => setShowSkeleton(true), 300);

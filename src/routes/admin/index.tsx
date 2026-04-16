@@ -14,7 +14,6 @@ import { AdminProperties } from "@/components/admin/AdminProperties";
 import { AdminConfig } from "@/components/admin/AdminConfig";
 import { AdminFAQs } from "@/components/admin/AdminFAQs";
 import { useConfig } from "@/context/ConfigContext";
-import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPanel,
@@ -37,8 +36,6 @@ function AdminPanel() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<"propiedades" | "configuracion" | "faqs">("propiedades");
 
-  useSEO({ title: "Admin | Inmobiliaria Pérez-Campos", noIndex: true });
-
   useEffect(() => {
     if (!authLoading && !user) {
       navigate({ to: "/admin/login" });
@@ -48,14 +45,23 @@ function AdminPanel() {
   const loadData = useCallback(async () => {
     setLoadError(null);
     try {
-      const [props, conf, faqData] = await Promise.all([
+      const [props, conf, faqData] = await Promise.allSettled([
         fetchAllPropiedades(),
         fetchConfiguracion(),
         fetchAllFAQs(),
       ]);
-      setPropiedades(props);
-      setConfig(conf);
-      setFaqs(faqData);
+
+      if (props.status === "fulfilled") setPropiedades(props.value);
+      if (conf.status === "fulfilled") setConfig(conf.value);
+      if (faqData.status === "fulfilled") setFaqs(faqData.value);
+
+      const failed = [props, conf, faqData].filter((r) => r.status === "rejected");
+      if (failed.length > 0) {
+        const errors = failed
+          .map((r) => (r as PromiseRejectedResult).reason?.message ?? "unknown")
+          .join(", ");
+        console.error("Partial load error:", errors);
+      }
     } catch (error) {
       console.error(error);
       setLoadError("No se pudieron cargar los datos del panel.");
