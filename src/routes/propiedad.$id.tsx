@@ -73,17 +73,14 @@ function PropiedadDetalle() {
 
       <div className="pt-24 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <a
-            href="/#propiedades"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = "/#propiedades";
-            }}
-            className="inline-flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-body mb-8 transition-opacity hover:opacity-60"
+          <Link
+            to="/"
+            hash="propiedades"
+            className="inline-flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase font-body mb-10 transition-opacity hover:opacity-60"
             style={{ color: "#2c3e2c", fontWeight: 400 }}
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Volver
-          </a>
+          </Link>
 
           <span
             className="inline-block text-[10px] tracking-[0.2em] uppercase px-3 py-1.5 mb-4 font-body text-white"
