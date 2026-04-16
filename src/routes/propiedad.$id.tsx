@@ -31,13 +31,6 @@ function PropiedadDetalle() {
   const [error, setError] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
 
-  useSEO({
-    title: prop ? `${prop.titulo} | Inmobiliaria Pérez-Campos` : undefined,
-    description: prop ? `${prop.descripcion || ""} — ${prop.comuna || ""}` : undefined,
-    imageUrl: prop?.imagen_url || undefined,
-    type: "article",
-  });
-
   useEffect(() => {
     const timer = setTimeout(() => setShowSkeleton(true), 300);
     fetchPropiedadById(id)
