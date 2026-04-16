@@ -70,6 +70,8 @@ export type Database = {
           id: string
           imagen_url: string | null
           imagenes: string[] | null
+          lat: number | null
+          lng: number | null
           orden: number
           precio: string | null
           tipo: string
@@ -86,6 +88,8 @@ export type Database = {
           id?: string
           imagen_url?: string | null
           imagenes?: string[] | null
+          lat?: number | null
+          lng?: number | null
           orden?: number
           precio?: string | null
           tipo?: string
@@ -102,6 +106,8 @@ export type Database = {
           id?: string
           imagen_url?: string | null
           imagenes?: string[] | null
+          lat?: number | null
+          lng?: number | null
           orden?: number
           precio?: string | null
           tipo?: string
