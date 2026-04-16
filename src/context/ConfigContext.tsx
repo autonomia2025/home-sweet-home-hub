@@ -5,6 +5,9 @@ interface ConfigState {
   whatsapp: string;
   nombre_inmobiliaria: string;
   presentacion: string;
+  hero_titulo: string;
+  hero_subtitulo: string;
+  hero_imagen_url: string;
   loading: boolean;
   refresh: () => Promise<void>;
 }
@@ -13,6 +16,9 @@ const ConfigContext = createContext<ConfigState>({
   whatsapp: "",
   nombre_inmobiliaria: "Inmobiliaria Pérez-Campos",
   presentacion: "",
+  hero_titulo: "Propiedades\ncon carácter",
+  hero_subtitulo: "Inmuebles únicos en ubicaciones que importan.",
+  hero_imagen_url: "",
   loading: true,
   refresh: async () => {},
 });
@@ -48,6 +54,9 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     whatsapp: config.whatsapp || "",
     nombre_inmobiliaria: config.nombre_inmobiliaria || "Inmobiliaria Pérez-Campos",
     presentacion: config.presentacion || "",
+    hero_titulo: config.hero_titulo || "Propiedades\ncon carácter",
+    hero_subtitulo: config.hero_subtitulo || "Inmuebles únicos en ubicaciones que importan.",
+    hero_imagen_url: config.hero_imagen_url || "",
     loading,
     refresh: load,
   };

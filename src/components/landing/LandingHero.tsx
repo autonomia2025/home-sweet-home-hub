@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import heroBg from "@/assets/hero-landing.jpg";
+import { useConfig } from "@/context/ConfigContext";
 
 export function LandingHero() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const { hero_titulo, hero_subtitulo, hero_imagen_url } = useConfig();
   const [typedText, setTypedText] = useState("");
-  const subtitle = "Inmuebles únicos en ubicaciones que importan.";
+  const subtitle = hero_subtitulo;
+  const bgImage = hero_imagen_url || heroBg;
+  const titleLines = hero_titulo.split("\n");
 
   // Parallax effect
   useEffect(() => {
@@ -38,6 +42,7 @@ export function LandingHero() {
 
   // Typing effect
   useEffect(() => {
+    setTypedText("");
     let i = 0;
     const timer = setInterval(() => {
       if (i <= subtitle.length) {
@@ -48,7 +53,7 @@ export function LandingHero() {
       }
     }, 40);
     return () => clearInterval(timer);
-  }, []);
+  }, [subtitle]);
 
   const scrollToProperties = () => {
     document.getElementById("propiedades")?.scrollIntoView({ behavior: "smooth" });
@@ -62,8 +67,8 @@ export function LandingHero() {
       style={{ backgroundColor: "#ffffff" }}
     >
       <img
-        src={heroBg}
-        alt="Casa moderna frente al mar en Chile"
+        src={bgImage}
+        alt="Hero inmobiliaria"
         className="absolute inset-0 w-full h-full object-cover object-[center_35%] scale-95 md:scale-100 md:object-center"
         style={{ opacity: 0.4 }}
         width={1920}
@@ -86,9 +91,12 @@ export function LandingHero() {
             textShadow: "0 2px 20px rgba(0,0,0,0.3)",
           }}
         >
-          Propiedades
-          <br />
-          con carácter
+          {titleLines.map((line, i) => (
+            <span key={i}>
+              {line}
+              {i < titleLines.length - 1 && <br />}
+            </span>
+          ))}
         </h1>
 
         {/* Decorative line */}
