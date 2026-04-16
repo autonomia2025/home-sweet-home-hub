@@ -242,3 +242,10 @@
     }
   }
 }
+
+/* Contain Leaflet panes/controls so they never escape above sticky navbar/floating buttons */
+.leaflet-container { z-index: 0; }
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom { z-index: 1 !important; }
+
