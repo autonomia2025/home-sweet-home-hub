@@ -8,13 +8,13 @@ export function LandingCoverage() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#2c3e2c" }}
+      style={{ backgroundColor: "#f0ebe3" }}
       ref={revealRef}
     >
       <div className="max-w-4xl mx-auto text-center">
         <h2
-          className="reveal-hidden font-display text-3xl md:text-5xl text-foreground mb-16"
-          style={{ fontWeight: 300 }}
+          className="reveal-hidden font-display text-3xl md:text-5xl mb-16"
+          style={{ fontWeight: 300, color: "#2c2416" }}
         >
           Cobertura
         </h2>
@@ -24,21 +24,21 @@ export function LandingCoverage() {
             <div key={comuna}>
               <div className="py-5">
                 <span
-                  className="font-display text-xl md:text-2xl text-foreground"
-                  style={{ fontWeight: 300 }}
+                  className="font-display text-xl md:text-2xl"
+                  style={{ fontWeight: 300, color: "#2c2416" }}
                 >
                   {comuna}
                 </span>
               </div>
               {i < comunas.length - 1 && (
-                <div className="line-separator-dark" />
+                <div className="line-separator-light" />
               )}
             </div>
           ))}
-          <div className="line-separator-dark mt-1" />
+          <div className="line-separator-light mt-1" />
           <p
-            className="font-body text-text-secondary text-sm mt-8"
-            style={{ fontWeight: 300 }}
+            className="font-body text-sm mt-8"
+            style={{ fontWeight: 300, color: "#5a4a3a" }}
           >
             y más comunas próximamente
           </p>
