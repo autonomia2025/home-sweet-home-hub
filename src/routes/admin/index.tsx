@@ -14,7 +14,6 @@ import { AdminProperties } from "@/components/admin/AdminProperties";
 import { AdminConfig } from "@/components/admin/AdminConfig";
 import { AdminFAQs } from "@/components/admin/AdminFAQs";
 import { useConfig } from "@/context/ConfigContext";
-import { useSEO } from "@/hooks/useSEO";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPanel,
