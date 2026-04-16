@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { fetchPropiedadById } from "@/lib/supabase-helpers";
 import type { Propiedad, Caracteristicas } from "@/lib/supabase-helpers";
 import { useConfig } from "@/context/ConfigContext";
-import { useSEO } from "@/hooks/useSEO";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { WhatsAppFloatingButton } from "@/components/landing/WhatsAppFloatingButton";
