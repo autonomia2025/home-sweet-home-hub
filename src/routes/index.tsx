@@ -37,12 +37,6 @@ function HomePage() {
   const [propsLoading, setPropsLoading] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(false);
 
-  useSEO({
-    title: "Inmobiliaria Pérez-Campos | Propiedades en venta y arriendo en Chile",
-    description: "Propiedades únicas en Santiago y costa chilena. Trato directo y personalizado. Inmobiliaria Pérez-Campos.",
-    imageUrl: "/og-default.jpg",
-  });
-
   useEffect(() => {
     const timer = setTimeout(() => setShowSkeleton(true), 300);
     fetchPropiedadesActivas()
