@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { fetchPropiedadesActivas, subscribeToPropiedades } from "@/lib/supabase-helpers";
 import type { Propiedad } from "@/lib/supabase-helpers";
 import { useConfig } from "@/context/ConfigContext";
-import { useSEO } from "@/hooks/useSEO";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { LandingProperties } from "@/components/landing/LandingProperties";
