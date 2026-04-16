@@ -19,7 +19,7 @@ function SkeletonBlock({ className, variant = "light", ...props }: React.HTMLAtt
 
 function SkeletonCard() {
   return (
-    <div style={{ borderLeft: "2px solid #c8b8a2" }}>
+    <div style={{ borderLeft: "2px solid #5a7a5a" }}>
       <Skeleton className="w-full" style={{ aspectRatio: "4/3" }} />
       <div className="p-6 space-y-3">
         <SkeletonText width="70%" className="h-5" />

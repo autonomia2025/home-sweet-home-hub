@@ -58,7 +58,7 @@ export function LandingHero() {
       id="hero"
       ref={heroRef}
       className="min-h-screen flex flex-col items-center justify-center px-6 relative"
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: "#2c3e2c" }}
     >
       <div className="text-center max-w-5xl mx-auto">
         <h1
@@ -77,7 +77,7 @@ export function LandingHero() {
         <div className="flex justify-center mb-8">
           <div
             className="h-px animate-line-grow"
-            style={{ backgroundColor: "#c8b8a2" }}
+            style={{ backgroundColor: "#5a7a5a" }}
           />
         </div>
 
@@ -91,7 +91,7 @@ export function LandingHero() {
             className="inline-block w-px h-5 ml-0.5 align-middle animate-typing-cursor"
             style={{
               borderRight: "2px solid",
-              borderColor: typedText.length === subtitle.length ? "transparent" : "#c8b8a2",
+              borderColor: typedText.length === subtitle.length ? "transparent" : "#5a7a5a",
             }}
           />
         </p>

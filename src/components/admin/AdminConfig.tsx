@@ -31,7 +31,7 @@ export function AdminConfig({ config: initialConfig, onRefresh }: AdminConfigPro
     <div>
       <h2
         className="font-display text-2xl mb-8"
-        style={{ color: "#0a0a0a", fontWeight: 300 }}
+        style={{ color: "#2c3e2c", fontWeight: 300 }}
       >
         Configuración
       </h2>
@@ -54,7 +54,7 @@ export function AdminConfig({ config: initialConfig, onRefresh }: AdminConfigPro
         <div>
           <label
             className="block text-[11px] tracking-[0.1em] uppercase mb-2 font-body"
-            style={{ color: "#9a9a9a", fontWeight: 400 }}
+            style={{ color: "#8a7a6a", fontWeight: 400 }}
           >
             Texto de presentación
           </label>
@@ -65,7 +65,7 @@ export function AdminConfig({ config: initialConfig, onRefresh }: AdminConfigPro
             className="w-full px-3 py-2.5 text-sm font-body border outline-none resize-none focus:border-black/20 transition-colors"
             style={{
               borderColor: "rgba(0,0,0,0.1)",
-              color: "#0a0a0a",
+              color: "#2c3e2c",
               fontWeight: 300,
             }}
             placeholder="Descripción de la inmobiliaria..."
@@ -78,7 +78,7 @@ export function AdminConfig({ config: initialConfig, onRefresh }: AdminConfigPro
             disabled={saving}
             className="flex items-center gap-2 px-6 py-2.5 text-[11px] tracking-[0.15em] uppercase font-body transition-all duration-300 disabled:opacity-50"
             style={{
-              backgroundColor: "#0a0a0a",
+              backgroundColor: "#2c3e2c",
               color: "#fff",
               fontWeight: 400,
             }}
@@ -107,7 +107,7 @@ function ConfigField({
     <div>
       <label
         className="block text-[11px] tracking-[0.1em] uppercase mb-2 font-body"
-        style={{ color: "#9a9a9a", fontWeight: 400 }}
+        style={{ color: "#8a7a6a", fontWeight: 400 }}
       >
         {label}
       </label>
@@ -119,7 +119,7 @@ function ConfigField({
         className="w-full h-10 px-3 text-sm font-body border outline-none focus:border-black/20 transition-colors"
         style={{
           borderColor: "rgba(0,0,0,0.1)",
-          color: "#0a0a0a",
+          color: "#2c3e2c",
           fontWeight: 300,
         }}
       />

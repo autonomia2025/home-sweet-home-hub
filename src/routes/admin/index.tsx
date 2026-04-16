@@ -83,7 +83,7 @@ function AdminPanel() {
 
   if (authLoading || !user) {
     return (
-      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#f5f5f3" }}>
+      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#faf8f5" }}>
         <span className="font-display text-xl" style={{ color: "#ccc", fontWeight: 300 }}>Cargando...</span>
       </div>
     );
@@ -96,7 +96,7 @@ function AdminPanel() {
 
       <main className="flex-1 min-w-0">
         <header className="h-14 flex items-center px-6 md:px-8 border-b" style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: "#fff" }}>
-          <h1 className="text-[11px] tracking-[0.15em] uppercase font-body ml-10 md:ml-0" style={{ color: "#9a9a9a", fontWeight: 400 }}>
+          <h1 className="text-[11px] tracking-[0.15em] uppercase font-body ml-10 md:ml-0" style={{ color: "#8a7a6a", fontWeight: 400 }}>
             Panel de Administración — Pérez-Campos
           </h1>
         </header>
@@ -104,7 +104,7 @@ function AdminPanel() {
         <div className="p-6 md:p-8">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <span className="text-sm font-body" style={{ color: "#9a9a9a", fontWeight: 300 }}>Cargando datos...</span>
+              <span className="text-sm font-body" style={{ color: "#8a7a6a", fontWeight: 300 }}>Cargando datos...</span>
             </div>
           ) : activeSection === "propiedades" ? (
             <AdminProperties propiedades={propiedades} onRefresh={loadData} />

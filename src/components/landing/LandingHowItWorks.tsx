@@ -12,7 +12,7 @@ export function LandingHowItWorks() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: "#2c3e2c" }}
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto">
@@ -38,7 +38,7 @@ export function LandingHowItWorks() {
             >
               <span
                 className="font-display text-7xl md:text-8xl block mb-6"
-                style={{ color: "#1a1a1a", fontWeight: 300 }}
+                style={{ color: "#1e2a1e", fontWeight: 300 }}
               >
                 {step.num}
               </span>

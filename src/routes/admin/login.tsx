@@ -43,7 +43,7 @@ function AdminLogin() {
   return (
     <div
       className="flex min-h-screen items-center justify-center px-6"
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: "#2c3e2c" }}
     >
       <div className="w-full max-w-sm">
         {/* Logo */}
@@ -64,7 +64,7 @@ function AdminLogin() {
           </h1>
           <p
             className="text-[13px] font-body"
-            style={{ color: "#9a9a9a", fontWeight: 300 }}
+            style={{ color: "#8a7a6a", fontWeight: 300 }}
           >
             Inicia sesión para gestionar propiedades
           </p>
@@ -86,7 +86,7 @@ function AdminLogin() {
           <div>
             <label
               className="block text-[11px] tracking-[0.15em] uppercase mb-2 font-body"
-              style={{ color: "#9a9a9a", fontWeight: 400 }}
+              style={{ color: "#8a7a6a", fontWeight: 400 }}
             >
               Email
             </label>
@@ -107,7 +107,7 @@ function AdminLogin() {
           <div>
             <label
               className="block text-[11px] tracking-[0.15em] uppercase mb-2 font-body"
-              style={{ color: "#9a9a9a", fontWeight: 400 }}
+              style={{ color: "#8a7a6a", fontWeight: 400 }}
             >
               Contraseña
             </label>
@@ -137,7 +137,7 @@ function AdminLogin() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#fff";
-              e.currentTarget.style.color = "#0a0a0a";
+              e.currentTarget.style.color = "#2c3e2c";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "transparent";
@@ -151,7 +151,7 @@ function AdminLogin() {
           <Link
             to="/"
             className="text-[12px] font-body underline-anim"
-            style={{ color: "#9a9a9a", fontWeight: 300 }}
+            style={{ color: "#8a7a6a", fontWeight: 300 }}
           >
             ← Volver al sitio
           </Link>

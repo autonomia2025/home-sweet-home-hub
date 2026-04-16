@@ -24,13 +24,13 @@ export function LandingTestimonials() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#f5f5f3" }}
+      style={{ backgroundColor: "#faf8f5" }}
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto">
         <h2
           className="reveal-hidden font-display text-3xl md:text-5xl text-center mb-20"
-          style={{ color: "#0a0a0a", fontWeight: 300 }}
+          style={{ color: "#2c3e2c", fontWeight: 300 }}
         >
           Lo que dicen nuestros clientes
         </h2>
@@ -45,7 +45,7 @@ export function LandingTestimonials() {
             >
               <span
                 className="font-display text-5xl block mb-4 leading-none"
-                style={{ color: "#c8b8a2" }}
+                style={{ color: "#5a7a5a" }}
               >
                 &ldquo;
               </span>
@@ -58,13 +58,13 @@ export function LandingTestimonials() {
               <div className="line-separator-light mb-4" />
               <p
                 className="font-body text-sm"
-                style={{ color: "#0a0a0a", fontWeight: 500 }}
+                style={{ color: "#2c3e2c", fontWeight: 500 }}
               >
                 {t.name}
               </p>
               <p
                 className="font-body text-xs"
-                style={{ color: "#9a9a9a", fontWeight: 300 }}
+                style={{ color: "#8a7a6a", fontWeight: 300 }}
               >
                 {t.location}
               </p>

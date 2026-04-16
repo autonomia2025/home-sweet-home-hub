@@ -8,7 +8,7 @@ export function LandingCoverage() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: "#2c3e2c" }}
       ref={revealRef}
     >
       <div className="max-w-4xl mx-auto text-center">

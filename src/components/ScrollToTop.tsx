@@ -24,12 +24,12 @@ export function ScrollToTop() {
         left: 30,
         width: 44,
         height: 44,
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#2c3e2c",
         border: "1px solid rgba(255,255,255,0.15)",
         opacity: visible ? 1 : 0,
         pointerEvents: visible ? "auto" : "none",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#c8b8a2")}
+      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#5a7a5a")}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)")}
     >
       <ArrowUp className="h-[18px] w-[18px] text-white" />

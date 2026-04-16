@@ -40,7 +40,7 @@ export function LandingFAQ() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#f5f5f3" }}
+      style={{ backgroundColor: "#faf8f5" }}
     >
       {!loading && faqs.length > 0 && (
         <script
@@ -52,7 +52,7 @@ export function LandingFAQ() {
       <div className="max-w-3xl mx-auto">
         <h2
           className="font-display text-3xl md:text-5xl mb-16 text-center"
-          style={{ color: "#0a0a0a", fontWeight: 300 }}
+          style={{ color: "#2c3e2c", fontWeight: 300 }}
         >
           Preguntas frecuentes
         </h2>
@@ -80,14 +80,14 @@ export function LandingFAQ() {
                   >
                     <span
                       className="font-body text-sm md:text-base pr-4"
-                      style={{ color: "#0a0a0a", fontWeight: 400 }}
+                      style={{ color: "#2c3e2c", fontWeight: 400 }}
                     >
                       {faq.pregunta}
                     </span>
                     <span
                       className="shrink-0 w-6 h-6 flex items-center justify-center text-lg transition-transform duration-300"
                       style={{
-                        color: "#c8b8a2",
+                        color: "#5a7a5a",
                         transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
                       }}
                     >
