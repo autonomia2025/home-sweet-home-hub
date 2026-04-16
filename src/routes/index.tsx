@@ -8,6 +8,7 @@ import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { LandingProperties } from "@/components/landing/LandingProperties";
 import { LandingAbout } from "@/components/landing/LandingAbout";
+import { LandingMap } from "@/components/landing/LandingMap";
 import { LandingWhyUs } from "@/components/landing/LandingWhyUs";
 import { LandingHowItWorks } from "@/components/landing/LandingHowItWorks";
 import { LandingTestimonials } from "@/components/landing/LandingTestimonials";
@@ -75,6 +76,7 @@ function HomePage() {
       <LandingNavbar />
       <LandingHero />
       <LandingProperties propiedades={propiedades} loading={propsLoading && showSkeleton} />
+      <LandingMap propiedades={propiedades} />
       <LandingAbout />
       <LandingWhyUs />
       <LandingHowItWorks />

@@ -23,6 +23,8 @@ export type Propiedad = {
   descripcion_larga: string | null;
   caracteristicas: Caracteristicas;
   ubicacion_referencia: string | null;
+  lat?: number | null;
+  lng?: number | null;
 };
 
 export type Configuracion = {
