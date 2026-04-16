@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import heroBg from "@/assets/hero-landing.jpg";
+import { useConfig } from "@/context/ConfigContext";
 
 export function LandingHero() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const { hero_titulo, hero_subtitulo, hero_imagen_url } = useConfig();
   const [typedText, setTypedText] = useState("");
-  const subtitle = "Inmuebles únicos en ubicaciones que importan.";
+  const subtitle = hero_subtitulo;
+  const bgImage = hero_imagen_url || heroBg;
+  const titleLines = hero_titulo.split("\n");
 
   // Parallax effect
   useEffect(() => {
