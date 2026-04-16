@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { MapPin, MessageCircle } from "lucide-react";
 import type { Propiedad } from "@/lib/supabase-helpers";
 import { useConfig } from "@/context/ConfigContext";
-import { useReveal } from "@/hooks/use-reveal";
+
 
 interface LandingMapProps {
   propiedades: Propiedad[];
@@ -28,7 +28,7 @@ function project(lat: number, lng: number) {
 
 export function LandingMap({ propiedades }: LandingMapProps) {
   const { whatsapp } = useConfig();
-  const revealRef = useReveal();
+  
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const withCoords = useMemo(
@@ -50,24 +50,24 @@ export function LandingMap({ propiedades }: LandingMapProps) {
       id="mapa"
       className="py-24 md:py-32 px-6"
       style={{ backgroundColor: "#f0ebe3" }}
-      ref={revealRef}
+     
     >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <p
-            className="reveal-hidden text-[11px] tracking-[0.3em] uppercase mb-4 font-body"
+            className="text-[11px] tracking-[0.3em] uppercase mb-4 font-body"
             style={{ color: "#5a7a5a", fontWeight: 400 }}
           >
             — Cobertura —
           </p>
           <h2
-            className="reveal-hidden font-display text-3xl md:text-5xl mb-4"
+            className="font-display text-3xl md:text-5xl mb-4"
             style={{ color: "#2c3e2c", fontWeight: 300 }}
           >
             Dónde estamos
           </h2>
           <p
-            className="reveal-hidden font-body text-base md:text-lg max-w-xl mx-auto"
+            className="font-body text-base md:text-lg max-w-xl mx-auto"
             style={{ color: "#8a7a6a", fontWeight: 300 }}
           >
             Propiedades en Santiago y la costa chilena
@@ -75,7 +75,7 @@ export function LandingMap({ propiedades }: LandingMapProps) {
         </div>
 
         {/* Desktop / Tablet: Visual map */}
-        <div className="hidden md:flex justify-center reveal-hidden">
+        <div className="hidden md:flex justify-center">
           <div className="relative" style={{ width: MAP_W, maxWidth: "100%" }}>
             <svg
               viewBox={`0 0 ${MAP_W} ${MAP_H}`}
@@ -234,7 +234,7 @@ export function LandingMap({ propiedades }: LandingMapProps) {
         </div>
 
         {/* Mobile: Visual list with pin icons */}
-        <div className="md:hidden space-y-3 reveal-hidden">
+        <div className="md:hidden space-y-3">
           {withCoords.map((p) => (
             <div
               key={p.id}
