@@ -12,13 +12,13 @@ export function LandingHowItWorks() {
   return (
     <section
       className="py-24 md:py-32 px-6"
-      style={{ backgroundColor: "#2c3e2c" }}
+      style={{ backgroundColor: "#faf8f5" }}
       ref={revealRef}
     >
       <div className="max-w-7xl mx-auto">
         <h2
-          className="reveal-hidden font-display text-3xl md:text-5xl text-foreground text-center mb-20"
-          style={{ fontWeight: 300 }}
+          className="reveal-hidden font-display text-3xl md:text-5xl text-center mb-20"
+          style={{ fontWeight: 300, color: "#2c2416" }}
         >
           Cómo funciona
         </h2>
@@ -27,7 +27,7 @@ export function LandingHowItWorks() {
           {/* Connector line (desktop only) */}
           <div
             className="hidden md:block absolute top-16 left-[20%] right-[20%] h-px"
-            style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+            style={{ backgroundColor: "rgba(44,36,22,0.12)" }}
           />
 
           {steps.map((step, i) => (
@@ -38,19 +38,19 @@ export function LandingHowItWorks() {
             >
               <span
                 className="font-display text-7xl md:text-8xl block mb-6"
-                style={{ color: "#1e2a1e", fontWeight: 300 }}
+                style={{ color: "#e8e0d2", fontWeight: 300 }}
               >
                 {step.num}
               </span>
               <h3
-                className="font-display text-xl text-foreground mb-3"
-                style={{ fontWeight: 400 }}
+                className="font-display text-xl mb-3"
+                style={{ fontWeight: 400, color: "#2c2416" }}
               >
                 {step.title}
               </h3>
               <p
-                className="font-body text-sm text-text-secondary leading-relaxed max-w-xs mx-auto"
-                style={{ fontWeight: 300 }}
+                className="font-body text-sm leading-relaxed max-w-xs mx-auto"
+                style={{ fontWeight: 300, color: "#5a4a3a" }}
               >
                 {step.desc}
               </p>
