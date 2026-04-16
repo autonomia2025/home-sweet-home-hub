@@ -21,9 +21,20 @@ function AdminLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // If already authenticated, redirect
+  // If already authenticated, redirect to admin
   if (!authLoading && user) {
     return <Navigate to="/admin" />;
+  }
+
+  // Show loader while checking session to avoid flash of login form
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "#2c3e2c" }}>
+        <span className="font-display text-xl" style={{ color: "#fff", fontWeight: 300 }}>
+          Verificando sesión...
+        </span>
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,10 +43,10 @@ function AdminLogin() {
     setLoading(true);
     try {
       await signIn(email, password);
-      window.location.href = "/admin";
+      // Use router navigation so React state stays in sync with onAuthStateChange
+      navigate({ to: "/admin" });
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión");
-    } finally {
       setLoading(false);
     }
   };
