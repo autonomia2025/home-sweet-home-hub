@@ -104,10 +104,12 @@ export async function togglePropiedad(id: string, activa: boolean) {
 
 export function subscribeToPropiedades(callback: () => void) {
   const channel = supabase
-    .channel("propiedades-changes")
+    .channel(`propiedades-changes-${crypto.randomUUID()}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "propiedades" }, callback)
     .subscribe();
-  return () => { supabase.removeChannel(channel); };
+  return () => {
+    void supabase.removeChannel(channel);
+  };
 }
 
 // ── Configuracion ──
@@ -124,10 +126,12 @@ export async function fetchConfiguracion() {
 
 export function subscribeToConfiguracion(callback: () => void) {
   const channel = supabase
-    .channel("configuracion-changes")
+    .channel(`configuracion-changes-${crypto.randomUUID()}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "configuracion" }, callback)
     .subscribe();
-  return () => { supabase.removeChannel(channel); };
+  return () => {
+    void supabase.removeChannel(channel);
+  };
 }
 
 export async function updateConfiguracion(clave: string, valor: string) {
