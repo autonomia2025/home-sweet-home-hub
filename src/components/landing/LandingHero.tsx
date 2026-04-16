@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import heroBg from "@/assets/hero-landing.jpg";
 
 export function LandingHero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -57,10 +58,25 @@ export function LandingHero() {
     <section
       id="hero"
       ref={heroRef}
-      className="min-h-screen flex flex-col items-center justify-center px-6 relative"
-      style={{ backgroundColor: "#2c3e2c" }}
+      className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden"
+      style={{ backgroundColor: "#1a2419" }}
     >
-      <div className="text-center max-w-5xl mx-auto">
+      <img
+        src={heroBg}
+        alt="Casa moderna frente al mar en Chile"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.5 }}
+        width={1920}
+        height={1080}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(20,30,20,0.55) 0%, rgba(20,30,20,0.3) 50%, rgba(20,30,20,0.75) 100%)",
+        }}
+      />
+      <div className="relative z-10 text-center max-w-5xl mx-auto">
         <h1
           className="font-display leading-[1.05] mb-8 transition-transform duration-200 ease-out"
           style={{
