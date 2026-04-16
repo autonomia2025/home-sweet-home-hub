@@ -62,10 +62,12 @@ export function LandingHero() {
     >
       <div className="text-center max-w-5xl mx-auto">
         <h1
-          className="font-display text-foreground leading-[1.05] mb-8 transition-transform duration-200 ease-out"
+          className="font-display leading-[1.05] mb-8 transition-transform duration-200 ease-out"
           style={{
             fontSize: "clamp(3rem, 8vw, 7rem)",
             fontWeight: 300,
+            color: "#ffffff",
+            textShadow: "0 2px 20px rgba(0,0,0,0.3)",
           }}
         >
           Propiedades
@@ -77,21 +79,21 @@ export function LandingHero() {
         <div className="flex justify-center mb-8">
           <div
             className="h-px animate-line-grow"
-            style={{ backgroundColor: "#5a7a5a" }}
+            style={{ backgroundColor: "#ffffff" }}
           />
         </div>
 
         {/* Typed subtitle */}
         <p
-          className="font-body text-text-secondary text-lg md:text-xl mb-12 min-h-[2em]"
-          style={{ fontWeight: 300 }}
+          className="font-body text-lg md:text-xl mb-12 min-h-[2em]"
+          style={{ fontWeight: 300, color: "rgba(255,255,255,0.85)" }}
         >
           {typedText}
           <span
             className="inline-block w-px h-5 ml-0.5 align-middle animate-typing-cursor"
             style={{
               borderRight: "2px solid",
-              borderColor: typedText.length === subtitle.length ? "transparent" : "#5a7a5a",
+              borderColor: typedText.length === subtitle.length ? "transparent" : "#ffffff",
             }}
           />
         </p>
@@ -99,8 +101,12 @@ export function LandingHero() {
         {/* CTA */}
         <button
           onClick={scrollToProperties}
-          className="underline-anim text-[12px] tracking-[0.2em] uppercase text-foreground font-body"
-          style={{ fontWeight: 400 }}
+          className="text-[12px] tracking-[0.2em] uppercase font-body pb-1"
+          style={{
+            fontWeight: 400,
+            color: "#ffffff",
+            borderBottom: "1px solid rgba(255,255,255,0.5)",
+          }}
         >
           VER PROPIEDADES
         </button>
