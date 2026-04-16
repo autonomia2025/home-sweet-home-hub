@@ -312,6 +312,39 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
                 </FieldGroup>
 
                 <div>
+                  <span className="block text-[11px] tracking-[0.1em] uppercase mb-1 font-body" style={{ color: "#8a7a6a", fontWeight: 400 }}>
+                    Coordenadas para el mapa (opcional)
+                  </span>
+                  <p className="text-[11px] font-body mb-3" style={{ color: "#8a7a6a", fontWeight: 300 }}>
+                    Puedes obtenerlas desde Google Maps haciendo clic derecho en la ubicación.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <FieldGroup label="Latitud">
+                      <input
+                        type="number"
+                        step="any"
+                        value={editingProp.lat ?? ""}
+                        onChange={(e) => setEditingProp({ ...editingProp, lat: e.target.value === "" ? null : Number(e.target.value) })}
+                        placeholder="-33.4489"
+                        className="w-full h-10 px-3 text-sm font-body border outline-none"
+                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
+                      />
+                    </FieldGroup>
+                    <FieldGroup label="Longitud">
+                      <input
+                        type="number"
+                        step="any"
+                        value={editingProp.lng ?? ""}
+                        onChange={(e) => setEditingProp({ ...editingProp, lng: e.target.value === "" ? null : Number(e.target.value) })}
+                        placeholder="-70.6693"
+                        className="w-full h-10 px-3 text-sm font-body border outline-none"
+                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
+                      />
+                    </FieldGroup>
+                  </div>
+                </div>
+
+                <div>
                   <span className="block text-[11px] tracking-[0.1em] uppercase mb-3 font-body" style={{ color: "#8a7a6a", fontWeight: 400 }}>
                     Características opcionales
                   </span>
