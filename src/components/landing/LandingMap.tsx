@@ -50,6 +50,7 @@ export function LandingMap({ propiedades }: LandingMapProps) {
       className="py-24 md:py-32 px-6 relative overflow-hidden"
       style={{
         background: "linear-gradient(180deg, #f0ebe3 0%, #e8e0d3 100%)",
+        isolation: "isolate",
       }}
     >
       {/* Decorative top line */}
