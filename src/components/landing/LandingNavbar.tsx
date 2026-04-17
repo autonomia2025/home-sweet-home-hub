@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { useConfig } from "@/context/ConfigContext";
+import logoPC from "@/assets/logo-perez-campos.png";
 
 export function LandingNavbar() {
   const { nombre_inmobiliaria } = useConfig();
