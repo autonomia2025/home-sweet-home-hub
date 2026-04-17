@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { useConfig } from "@/context/ConfigContext";
+import logoPC from "@/assets/logo-perez-campos.png";
 
 export function LandingNavbar() {
   const { nombre_inmobiliaria } = useConfig();
@@ -25,8 +26,8 @@ export function LandingNavbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-4">
-          <div className="w-10 h-10 flex items-center justify-center border border-white/30">
-            <span className="font-display text-lg tracking-widest text-white">PC</span>
+          <div className="w-12 h-12 flex items-center justify-center border border-white/30 p-1.5">
+            <img src={logoPC} alt="Inmobiliaria Pérez-Campos" className="w-full h-full object-contain" />
           </div>
           <span
             className="hidden lg:block text-white text-[11px] font-body tracking-[0.2em] uppercase"
