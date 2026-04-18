@@ -8,14 +8,32 @@ import {
   deleteStorageImage,
 } from "@/lib/supabase-helpers";
 import { toast } from "sonner";
-import { Pencil, Trash2, Plus, X, Save, Upload, ChevronDown, ChevronUp, ImageIcon } from "lucide-react";
+import { Pencil, Trash2, Plus, X, Save, Upload, ImageIcon } from "lucide-react";
 
 interface AdminPropertiesProps {
   propiedades: Propiedad[];
   onRefresh: () => void;
 }
 
-type TabKey = "general" | "fotos" | "detalles";
+type TabKey = "general" | "fotos" | "caracteristicas" | "ubicacion";
+
+const AMENIDADES_OPCIONES = [
+  "Conserjería",
+  "Terraza común",
+  "Piscina",
+  "Gimnasio",
+  "Sala de eventos",
+  "Bicicletero",
+  "Estacionamiento visitas",
+  "Generador",
+];
+
+const ESTADO_OPCIONES = [
+  "Listo para habitar",
+  "Completamente remodelado",
+  "A remodelar",
+  "En construcción",
+];
 
 export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps) {
   const [editingProp, setEditingProp] = useState<Partial<Propiedad> | null>(null);
@@ -39,6 +57,11 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
       imagenes: [],
       caracteristicas: {},
       ubicacion_referencia: "",
+      amenidades: [],
+      contribuciones: false,
+      permite_mascotas: false,
+      amoblado: false,
+      actualmente_ocupado: false,
     });
   };
 
@@ -63,7 +86,6 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
   const handleDelete = async (id: string) => {
     const prop = propiedades.find((p) => p.id === id);
     try {
-      // Delete images from storage
       if (prop?.imagen_url) await deleteStorageImage(prop.imagen_url).catch(() => {});
       if (prop?.imagenes?.length) {
         await Promise.all(prop.imagenes.map((u) => deleteStorageImage(u).catch(() => {})));
@@ -143,10 +165,20 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
     });
   };
 
+  const amenidadesActuales = editingProp?.amenidades || [];
+  const toggleAmenidad = (amenidad: string) => {
+    const exists = amenidadesActuales.includes(amenidad);
+    const next = exists
+      ? amenidadesActuales.filter((a) => a !== amenidad)
+      : [...amenidadesActuales, amenidad];
+    setEditingProp({ ...editingProp, amenidades: next });
+  };
+
   const tabs: { key: TabKey; label: string }[] = [
     { key: "general", label: "General" },
     { key: "fotos", label: "Fotos" },
-    { key: "detalles", label: "Detalles" },
+    { key: "caracteristicas", label: "Características" },
+    { key: "ubicacion", label: "Ubicación y descripción" },
   ];
 
   const totalPhotos = (p: Propiedad) => (p.imagen_url ? 1 : 0) + (p.imagenes?.length || 0);
@@ -185,12 +217,12 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-6 mb-6 border-b" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
+            <div className="flex gap-6 mb-6 border-b overflow-x-auto" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
               {tabs.map((t) => (
                 <button
                   key={t.key}
                   onClick={() => setActiveTab(t.key)}
-                  className="text-[11px] tracking-[0.15em] uppercase font-body pb-3 transition-all"
+                  className="text-[11px] tracking-[0.15em] uppercase font-body pb-3 transition-all whitespace-nowrap"
                   style={{
                     color: activeTab === t.key ? "#2c3e2c" : "#8a7a6a",
                     fontWeight: 400,
@@ -210,7 +242,7 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
                 </FieldGroup>
                 <div className="grid grid-cols-2 gap-4">
                   <FieldGroup label="Precio">
-                    <AdminInput value={editingProp.precio || ""} onChange={(v) => setEditingProp({ ...editingProp, precio: v })} placeholder="Ej: $120.000.000" />
+                    <AdminInput value={editingProp.precio || ""} onChange={(v) => setEditingProp({ ...editingProp, precio: v })} placeholder="Ej: 1.580 UF" />
                   </FieldGroup>
                   <FieldGroup label="Tipo">
                     <select
@@ -237,13 +269,11 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
                     placeholder="Resumen breve para las cards..."
                   />
                 </FieldGroup>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <div className="w-10 h-5 relative cursor-pointer" onClick={() => setEditingProp({ ...editingProp, activa: !editingProp.activa })}>
-                    <div className="w-10 h-5 transition-colors" style={{ backgroundColor: editingProp.activa ? "#2c3e2c" : "rgba(0,0,0,0.1)" }} />
-                    <div className="absolute top-0.5 w-4 h-4 transition-all" style={{ backgroundColor: "#fff", left: editingProp.activa ? "22px" : "2px" }} />
-                  </div>
-                  <span className="text-sm font-body" style={{ color: "#2c3e2c", fontWeight: 300 }}>Visible en el sitio</span>
-                </label>
+                <ToggleRow
+                  label="Visible en el sitio"
+                  value={!!editingProp.activa}
+                  onChange={(v) => setEditingProp({ ...editingProp, activa: v })}
+                />
               </div>
             )}
 
@@ -289,8 +319,94 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
               </div>
             )}
 
-            {/* Tab: Detalles */}
-            {activeTab === "detalles" && (
+            {/* Tab: Características */}
+            {activeTab === "caracteristicas" && (
+              <div className="space-y-8">
+                <SectionHeader>Superficie y distribución</SectionHeader>
+                <div className="grid grid-cols-2 gap-4">
+                  <FieldGroup label="Superficie m²">
+                    <NumberInput value={chars.superficie_m2} onChange={(v) => setChar("superficie_m2", v)} />
+                  </FieldGroup>
+                  <FieldGroup label="Dormitorios">
+                    <NumberInput value={chars.dormitorios} onChange={(v) => setChar("dormitorios", v)} />
+                  </FieldGroup>
+                  <FieldGroup label="Baños">
+                    <NumberInput value={chars.banos} onChange={(v) => setChar("banos", v)} />
+                  </FieldGroup>
+                  <FieldGroup label="Piso">
+                    <NumberInput
+                      value={editingProp.piso ?? undefined}
+                      onChange={(v) => setEditingProp({ ...editingProp, piso: v ?? null })}
+                      placeholder="Ej: 5"
+                    />
+                  </FieldGroup>
+                  <FieldGroup label="Año construcción">
+                    <NumberInput
+                      value={editingProp.ano_construccion ?? undefined}
+                      onChange={(v) => setEditingProp({ ...editingProp, ano_construccion: v ?? null })}
+                      placeholder="Ej: 2015"
+                    />
+                  </FieldGroup>
+                  <FieldGroup label="Orientación">
+                    <AdminInput
+                      value={editingProp.orientacion || ""}
+                      onChange={(v) => setEditingProp({ ...editingProp, orientacion: v })}
+                      placeholder="Ej: Norte, Sur-Oriente"
+                    />
+                  </FieldGroup>
+                  <FieldGroup label="Estado">
+                    <select
+                      value={editingProp.estado_propiedad || ""}
+                      onChange={(e) => setEditingProp({ ...editingProp, estado_propiedad: e.target.value || null })}
+                      className="w-full h-10 px-3 text-sm font-body border outline-none"
+                      style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", backgroundColor: "#fff", fontWeight: 300 }}
+                    >
+                      <option value="">—</option>
+                      {ESTADO_OPCIONES.map((e) => <option key={e} value={e}>{e}</option>)}
+                    </select>
+                  </FieldGroup>
+                </div>
+
+                <SectionHeader>Extras de la unidad</SectionHeader>
+                <div className="grid grid-cols-2 gap-3">
+                  <CheckRow label="Estacionamiento" value={!!chars.estacionamiento} onChange={(v) => setChar("estacionamiento", v)} />
+                  <CheckRow label="Bodega" value={!!chars.bodega} onChange={(v) => setChar("bodega", v)} />
+                  <CheckRow label="Conexión lavadora" value={!!chars.conexion_lavadora} onChange={(v) => setChar("conexion_lavadora", v)} />
+                  <CheckRow label="Clóset" value={!!chars.closet} onChange={(v) => setChar("closet", v)} />
+                  <CheckRow label="Terraza propia" value={!!chars.terraza_propia} onChange={(v) => setChar("terraza_propia", v)} />
+                  <CheckRow label="Amoblado" value={!!editingProp.amoblado} onChange={(v) => setEditingProp({ ...editingProp, amoblado: v })} />
+                </div>
+
+                <SectionHeader>Amenidades del edificio</SectionHeader>
+                <div className="grid grid-cols-2 gap-3">
+                  {AMENIDADES_OPCIONES.map((a) => (
+                    <CheckRow
+                      key={a}
+                      label={a}
+                      value={amenidadesActuales.includes(a)}
+                      onChange={() => toggleAmenidad(a)}
+                    />
+                  ))}
+                </div>
+
+                <SectionHeader>Condiciones</SectionHeader>
+                <div className="space-y-4">
+                  <FieldGroup label="Gastos comunes">
+                    <AdminInput
+                      value={editingProp.gastos_comunes || ""}
+                      onChange={(v) => setEditingProp({ ...editingProp, gastos_comunes: v })}
+                      placeholder="Ej: $65.000 aprox."
+                    />
+                  </FieldGroup>
+                  <ToggleRow label="Paga contribuciones" value={!!editingProp.contribuciones} onChange={(v) => setEditingProp({ ...editingProp, contribuciones: v })} />
+                  <ToggleRow label="Permite mascotas" value={!!editingProp.permite_mascotas} onChange={(v) => setEditingProp({ ...editingProp, permite_mascotas: v })} />
+                  <ToggleRow label="Actualmente ocupado" value={!!editingProp.actualmente_ocupado} onChange={(v) => setEditingProp({ ...editingProp, actualmente_ocupado: v })} />
+                </div>
+              </div>
+            )}
+
+            {/* Tab: Ubicación y descripción */}
+            {activeTab === "ubicacion" && (
               <div className="space-y-5">
                 <FieldGroup label="Descripción completa">
                   <textarea
@@ -303,20 +419,20 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
                   />
                 </FieldGroup>
 
-                <FieldGroup label="Ubicación de referencia">
+                <FieldGroup label="Referencia de ubicación">
                   <AdminInput
                     value={editingProp.ubicacion_referencia || ""}
                     onChange={(v) => setEditingProp({ ...editingProp, ubicacion_referencia: v })}
-                    placeholder="Ej: A 5 minutos de la playa"
+                    placeholder="Ej: A 3 cuadras del Metro Toesca"
                   />
                 </FieldGroup>
 
                 <div>
                   <span className="block text-[11px] tracking-[0.1em] uppercase mb-1 font-body" style={{ color: "#8a7a6a", fontWeight: 400 }}>
-                    Coordenadas para el mapa (opcional)
+                    Coordenadas para el mapa
                   </span>
                   <p className="text-[11px] font-body mb-3" style={{ color: "#8a7a6a", fontWeight: 300 }}>
-                    Puedes obtenerlas desde Google Maps haciendo clic derecho en la ubicación.
+                    Obtén las coordenadas desde Google Maps → clic derecho sobre la ubicación → copiar.
                   </p>
                   <div className="grid grid-cols-2 gap-4">
                     <FieldGroup label="Latitud">
@@ -344,64 +460,16 @@ export function AdminProperties({ propiedades, onRefresh }: AdminPropertiesProps
                   </div>
                 </div>
 
-                <div>
-                  <span className="block text-[11px] tracking-[0.1em] uppercase mb-3 font-body" style={{ color: "#8a7a6a", fontWeight: 400 }}>
-                    Características opcionales
-                  </span>
-                  <div className="grid grid-cols-2 gap-4">
-                    <FieldGroup label="Superficie m²">
-                      <input
-                        type="number"
-                        value={chars.superficie_m2 ?? ""}
-                        onChange={(e) => setChar("superficie_m2", e.target.value ? Number(e.target.value) : undefined)}
-                        className="w-full h-10 px-3 text-sm font-body border outline-none"
-                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
-                      />
-                    </FieldGroup>
-                    <FieldGroup label="Dormitorios">
-                      <input
-                        type="number"
-                        value={chars.dormitorios ?? ""}
-                        onChange={(e) => setChar("dormitorios", e.target.value ? Number(e.target.value) : undefined)}
-                        className="w-full h-10 px-3 text-sm font-body border outline-none"
-                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
-                      />
-                    </FieldGroup>
-                    <FieldGroup label="Baños">
-                      <input
-                        type="number"
-                        value={chars.banos ?? ""}
-                        onChange={(e) => setChar("banos", e.target.value ? Number(e.target.value) : undefined)}
-                        className="w-full h-10 px-3 text-sm font-body border outline-none"
-                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
-                      />
-                    </FieldGroup>
-                    <FieldGroup label="Estacionamiento">
-                      <select
-                        value={chars.estacionamiento === true ? "si" : chars.estacionamiento === false ? "no" : ""}
-                        onChange={(e) => setChar("estacionamiento", e.target.value === "" ? undefined : e.target.value === "si")}
-                        className="w-full h-10 px-3 text-sm font-body border outline-none"
-                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", backgroundColor: "#fff", fontWeight: 300 }}
-                      >
-                        <option value="">—</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
-                    </FieldGroup>
-                    <FieldGroup label="Bodega">
-                      <select
-                        value={chars.bodega === true ? "si" : chars.bodega === false ? "no" : ""}
-                        onChange={(e) => setChar("bodega", e.target.value === "" ? undefined : e.target.value === "si")}
-                        className="w-full h-10 px-3 text-sm font-body border outline-none"
-                        style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", backgroundColor: "#fff", fontWeight: 300 }}
-                      >
-                        <option value="">—</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
-                    </FieldGroup>
-                  </div>
-                </div>
+                <FieldGroup label="Condiciones adicionales">
+                  <textarea
+                    value={editingProp.condiciones_adicionales || ""}
+                    onChange={(e) => setEditingProp({ ...editingProp, condiciones_adicionales: e.target.value })}
+                    rows={4}
+                    className="w-full px-3 py-2.5 text-sm font-body border outline-none resize-none"
+                    style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
+                    placeholder="Ej: Sin estacionamiento · Sin bodega · No paga contribuciones"
+                  />
+                </FieldGroup>
               </div>
             )}
 
@@ -531,5 +599,57 @@ function AdminInput({ value, onChange, placeholder }: { value: string; onChange:
       className="w-full h-10 px-3 text-sm font-body border outline-none focus:border-black/20 transition-colors"
       style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
     />
+  );
+}
+
+function NumberInput({ value, onChange, placeholder }: { value: number | undefined; onChange: (v: number | undefined) => void; placeholder?: string }) {
+  return (
+    <input
+      type="number"
+      value={value ?? ""}
+      onChange={(e) => onChange(e.target.value === "" ? undefined : Number(e.target.value))}
+      placeholder={placeholder}
+      className="w-full h-10 px-3 text-sm font-body border outline-none"
+      style={{ borderColor: "rgba(0,0,0,0.1)", color: "#2c3e2c", fontWeight: 300 }}
+    />
+  );
+}
+
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="pb-2 border-b" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
+      <span className="text-[11px] tracking-[0.15em] uppercase font-body" style={{ color: "#5a7a5a", fontWeight: 500 }}>
+        {children}
+      </span>
+    </div>
+  );
+}
+
+function ToggleRow({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-3 cursor-pointer" onClick={(e) => { e.preventDefault(); onChange(!value); }}>
+      <div className="w-10 h-5 relative cursor-pointer shrink-0">
+        <div className="w-10 h-5 transition-colors" style={{ backgroundColor: value ? "#2c3e2c" : "rgba(0,0,0,0.1)" }} />
+        <div className="absolute top-0.5 w-4 h-4 transition-all" style={{ backgroundColor: "#fff", left: value ? "22px" : "2px" }} />
+      </div>
+      <span className="text-sm font-body" style={{ color: "#2c3e2c", fontWeight: 300 }}>{label}</span>
+    </label>
+  );
+}
+
+function CheckRow({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-2.5 cursor-pointer py-1" onClick={(e) => { e.preventDefault(); onChange(!value); }}>
+      <span
+        className="w-4 h-4 flex items-center justify-center shrink-0 border transition-all"
+        style={{
+          borderColor: value ? "#2c3e2c" : "rgba(0,0,0,0.2)",
+          backgroundColor: value ? "#2c3e2c" : "#fff",
+        }}
+      >
+        {value && <span className="text-white text-[10px] leading-none">✓</span>}
+      </span>
+      <span className="text-sm font-body" style={{ color: "#2c3e2c", fontWeight: 300 }}>{label}</span>
+    </label>
   );
 }

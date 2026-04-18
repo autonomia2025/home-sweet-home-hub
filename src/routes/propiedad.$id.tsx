@@ -10,6 +10,8 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { SkeletonText, SkeletonBlock } from "@/components/ui/skeleton";
 import {
   MapPin, ArrowLeft, Ruler, BedDouble, Bath, Car, Package,
+  Layers, Receipt, Compass, CheckCircle, Calendar,
+  WashingMachine, DoorOpen, Sun,
 } from "lucide-react";
 
 export const Route = createFileRoute("/propiedad/$id")({
@@ -57,7 +59,31 @@ function PropiedadDetalle() {
     : "#";
 
   const chars = (prop.caracteristicas || {}) as Caracteristicas;
-  const hasChars = Object.values(chars).some((v) => v !== undefined && v !== null);
+
+  // Badges de condiciones
+  const condicionesBadges: string[] = [];
+  if (prop.permite_mascotas) condicionesBadges.push("Permite mascotas");
+  if (prop.amoblado) condicionesBadges.push("Amoblado");
+  if (prop.actualmente_ocupado) condicionesBadges.push("Visitas con coordinación previa");
+  if (prop.contribuciones === false) condicionesBadges.push("No paga contribuciones");
+
+  // Ficha técnica
+  const fichaItems: { icon: React.ReactNode; label: string; value: string }[] = [];
+  if (chars.superficie_m2 != null) fichaItems.push({ icon: <Ruler className="h-4 w-4" />, label: "Superficie", value: `${chars.superficie_m2} m²` });
+  if (chars.dormitorios != null) fichaItems.push({ icon: <BedDouble className="h-4 w-4" />, label: "Dormitorios", value: String(chars.dormitorios) });
+  if (chars.banos != null) fichaItems.push({ icon: <Bath className="h-4 w-4" />, label: "Baños", value: String(chars.banos) });
+  if (prop.piso != null) fichaItems.push({ icon: <Layers className="h-4 w-4" />, label: "Piso", value: String(prop.piso) });
+  if (chars.estacionamiento != null) fichaItems.push({ icon: <Car className="h-4 w-4" />, label: "Estacionamiento", value: chars.estacionamiento ? "Sí" : "No" });
+  if (chars.bodega != null) fichaItems.push({ icon: <Package className="h-4 w-4" />, label: "Bodega", value: chars.bodega ? "Sí" : "No" });
+  if (chars.conexion_lavadora) fichaItems.push({ icon: <WashingMachine className="h-4 w-4" />, label: "Conexión lavadora", value: "Sí" });
+  if (chars.closet) fichaItems.push({ icon: <DoorOpen className="h-4 w-4" />, label: "Clóset", value: "Sí" });
+  if (chars.terraza_propia) fichaItems.push({ icon: <Sun className="h-4 w-4" />, label: "Terraza propia", value: "Sí" });
+  if (prop.gastos_comunes) fichaItems.push({ icon: <Receipt className="h-4 w-4" />, label: "Gastos comunes", value: prop.gastos_comunes });
+  if (prop.orientacion) fichaItems.push({ icon: <Compass className="h-4 w-4" />, label: "Orientación", value: prop.orientacion });
+  if (prop.estado_propiedad) fichaItems.push({ icon: <CheckCircle className="h-4 w-4" />, label: "Estado", value: prop.estado_propiedad });
+  if (prop.ano_construccion != null) fichaItems.push({ icon: <Calendar className="h-4 w-4" />, label: "Año construcción", value: String(prop.ano_construccion) });
+
+  const amenidades = prop.amenidades || [];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#faf8f5" }}>
@@ -94,7 +120,26 @@ function PropiedadDetalle() {
             </div>
           )}
 
-          <p className="font-display text-2xl mb-8" style={{ color: "#2c3e2c", fontWeight: 400 }}>{prop.precio}</p>
+          <p className="font-display text-2xl mb-6" style={{ color: "#2c3e2c", fontWeight: 400 }}>{prop.precio}</p>
+
+          {condicionesBadges.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {condicionesBadges.map((b) => (
+                <span
+                  key={b}
+                  className="text-[10px] tracking-[0.1em] uppercase font-body px-3 py-1.5"
+                  style={{
+                    backgroundColor: "rgba(90,122,90,0.08)",
+                    color: "#2c3e2c",
+                    border: "1px solid rgba(90,122,90,0.25)",
+                    fontWeight: 400,
+                  }}
+                >
+                  {b}
+                </span>
+              ))}
+            </div>
+          )}
 
           {allImages.length > 0 ? (
             <div className="mb-12">
@@ -131,16 +176,44 @@ function PropiedadDetalle() {
                 </p>
               </div>
 
-              {hasChars && (
+              {fichaItems.length > 0 && (
                 <div className="mb-8" style={{ borderTop: "1px solid rgba(0,0,0,0.06)", paddingTop: "2rem" }}>
                   <h2 className="font-display text-2xl mb-6" style={{ color: "#2c3e2c", fontWeight: 300 }}>Características</h2>
                   <div className="grid grid-cols-2 gap-4">
-                    {chars.superficie_m2 != null && <CharItem icon={<Ruler className="h-4 w-4" />} label="Superficie" value={`${chars.superficie_m2} m²`} />}
-                    {chars.dormitorios != null && <CharItem icon={<BedDouble className="h-4 w-4" />} label="Dormitorios" value={String(chars.dormitorios)} />}
-                    {chars.banos != null && <CharItem icon={<Bath className="h-4 w-4" />} label="Baños" value={String(chars.banos)} />}
-                    {chars.estacionamiento != null && <CharItem icon={<Car className="h-4 w-4" />} label="Estacionamiento" value={chars.estacionamiento ? "Sí" : "No"} />}
-                    {chars.bodega != null && <CharItem icon={<Package className="h-4 w-4" />} label="Bodega" value={chars.bodega ? "Sí" : "No"} />}
+                    {fichaItems.map((item, i) => (
+                      <CharItem key={i} icon={item.icon} label={item.label} value={item.value} />
+                    ))}
                   </div>
+                </div>
+              )}
+
+              {amenidades.length > 0 && (
+                <div className="mb-8" style={{ borderTop: "1px solid rgba(0,0,0,0.06)", paddingTop: "2rem" }}>
+                  <h2 className="font-display text-2xl mb-4" style={{ color: "#2c3e2c", fontWeight: 300 }}>Edificio</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {amenidades.map((a) => (
+                      <span
+                        key={a}
+                        className="text-xs font-body px-3 py-1.5"
+                        style={{
+                          backgroundColor: "rgba(200,184,162,0.15)",
+                          color: "#2c3e2c",
+                          fontWeight: 400,
+                        }}
+                      >
+                        {a}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {prop.condiciones_adicionales && (
+                <div className="mb-8" style={{ borderTop: "1px solid rgba(0,0,0,0.06)", paddingTop: "2rem" }}>
+                  <h2 className="font-display text-2xl mb-4" style={{ color: "#2c3e2c", fontWeight: 300 }}>Condiciones</h2>
+                  <p className="font-body text-sm leading-relaxed whitespace-pre-line" style={{ color: "#6a6a6a", fontWeight: 300 }}>
+                    {prop.condiciones_adicionales}
+                  </p>
                 </div>
               )}
 

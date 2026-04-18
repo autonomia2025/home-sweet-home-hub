@@ -62,54 +62,96 @@ export type Database = {
       propiedades: {
         Row: {
           activa: boolean
+          actualmente_ocupado: boolean | null
+          amenidades: string[] | null
+          amoblado: boolean | null
+          ano_construccion: number | null
           caracteristicas: Json | null
+          closet: boolean | null
           comuna: string | null
+          condiciones_adicionales: string | null
+          conexion_lavadora: boolean | null
+          contribuciones: boolean | null
           created_at: string
           descripcion: string | null
           descripcion_larga: string | null
+          estado_propiedad: string | null
+          gastos_comunes: string | null
           id: string
           imagen_url: string | null
           imagenes: string[] | null
           lat: number | null
           lng: number | null
           orden: number
+          orientacion: string | null
+          permite_mascotas: boolean | null
+          piso: number | null
           precio: string | null
+          terraza_propia: boolean | null
           tipo: string
           titulo: string
           ubicacion_referencia: string | null
         }
         Insert: {
           activa?: boolean
+          actualmente_ocupado?: boolean | null
+          amenidades?: string[] | null
+          amoblado?: boolean | null
+          ano_construccion?: number | null
           caracteristicas?: Json | null
+          closet?: boolean | null
           comuna?: string | null
+          condiciones_adicionales?: string | null
+          conexion_lavadora?: boolean | null
+          contribuciones?: boolean | null
           created_at?: string
           descripcion?: string | null
           descripcion_larga?: string | null
+          estado_propiedad?: string | null
+          gastos_comunes?: string | null
           id?: string
           imagen_url?: string | null
           imagenes?: string[] | null
           lat?: number | null
           lng?: number | null
           orden?: number
+          orientacion?: string | null
+          permite_mascotas?: boolean | null
+          piso?: number | null
           precio?: string | null
+          terraza_propia?: boolean | null
           tipo?: string
           titulo: string
           ubicacion_referencia?: string | null
         }
         Update: {
           activa?: boolean
+          actualmente_ocupado?: boolean | null
+          amenidades?: string[] | null
+          amoblado?: boolean | null
+          ano_construccion?: number | null
           caracteristicas?: Json | null
+          closet?: boolean | null
           comuna?: string | null
+          condiciones_adicionales?: string | null
+          conexion_lavadora?: boolean | null
+          contribuciones?: boolean | null
           created_at?: string
           descripcion?: string | null
           descripcion_larga?: string | null
+          estado_propiedad?: string | null
+          gastos_comunes?: string | null
           id?: string
           imagen_url?: string | null
           imagenes?: string[] | null
           lat?: number | null
           lng?: number | null
           orden?: number
+          orientacion?: string | null
+          permite_mascotas?: boolean | null
+          piso?: number | null
           precio?: string | null
+          terraza_propia?: boolean | null
           tipo?: string
           titulo?: string
           ubicacion_referencia?: string | null

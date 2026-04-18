@@ -6,6 +6,9 @@ export type Caracteristicas = {
   banos?: number;
   estacionamiento?: boolean;
   bodega?: boolean;
+  conexion_lavadora?: boolean;
+  closet?: boolean;
+  terraza_propia?: boolean;
 };
 
 export type Propiedad = {
@@ -25,6 +28,18 @@ export type Propiedad = {
   ubicacion_referencia: string | null;
   lat?: number | null;
   lng?: number | null;
+  // Nuevos campos
+  piso?: number | null;
+  gastos_comunes?: string | null;
+  contribuciones?: boolean | null;
+  permite_mascotas?: boolean | null;
+  amoblado?: boolean | null;
+  actualmente_ocupado?: boolean | null;
+  ano_construccion?: number | null;
+  orientacion?: string | null;
+  estado_propiedad?: string | null;
+  amenidades?: string[] | null;
+  condiciones_adicionales?: string | null;
 };
 
 export type Configuracion = {
