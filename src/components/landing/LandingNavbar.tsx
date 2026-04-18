@@ -26,9 +26,7 @@ export function LandingNavbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-4">
-          <div className="w-12 h-12 flex items-center justify-center border border-white/30 p-1.5">
-            <img src={logoPC} alt="Inmobiliaria Pérez-Campos" className="w-full h-full object-contain" />
-          </div>
+          <img src={logoPC} alt="Inmobiliaria Pérez-Campos" className="h-12 w-12 object-contain" />
           <span
             className="hidden lg:block text-white text-[11px] font-body tracking-[0.2em] uppercase"
             style={{ fontWeight: 300 }}
