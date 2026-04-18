@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import heroBg from "@/assets/hero-landing.jpg";
 import { useConfig } from "@/context/ConfigContext";
 
 export function LandingHero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { hero_titulo, hero_subtitulo, hero_imagen_url } = useConfig();
-  const [typedText, setTypedText] = useState("");
   const subtitle = hero_subtitulo;
   const bgImage = hero_imagen_url || heroBg;
   const titleLines = hero_titulo.split("\n");
@@ -40,20 +39,6 @@ export function LandingHero() {
     };
   }, []);
 
-  // Typing effect
-  useEffect(() => {
-    setTypedText("");
-    let i = 0;
-    const timer = setInterval(() => {
-      if (i <= subtitle.length) {
-        setTypedText(subtitle.slice(0, i));
-        i++;
-      } else {
-        clearInterval(timer);
-      }
-    }, 40);
-    return () => clearInterval(timer);
-  }, [subtitle]);
 
   const scrollToProperties = () => {
     document.getElementById("propiedades")?.scrollIntoView({ behavior: "smooth" });
@@ -107,19 +92,12 @@ export function LandingHero() {
           />
         </div>
 
-        {/* Typed subtitle */}
+        {/* Subtitle */}
         <p
-          className="font-body text-lg md:text-xl mb-12 min-h-[2em]"
+          className="font-body text-lg md:text-xl mb-12"
           style={{ fontWeight: 300, color: "rgba(255,255,255,0.85)" }}
         >
-          {typedText}
-          <span
-            className="inline-block w-px h-5 ml-0.5 align-middle animate-typing-cursor"
-            style={{
-              borderRight: "2px solid",
-              borderColor: typedText.length === subtitle.length ? "transparent" : "#ffffff",
-            }}
-          />
+          {subtitle}
         </p>
 
         {/* CTA */}
