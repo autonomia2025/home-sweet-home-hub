@@ -1,0 +1,15 @@
+ALTER TABLE public.propiedades
+  ADD COLUMN IF NOT EXISTS piso integer,
+  ADD COLUMN IF NOT EXISTS gastos_comunes text,
+  ADD COLUMN IF NOT EXISTS contribuciones boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS permite_mascotas boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS amoblado boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS actualmente_ocupado boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS ano_construccion integer,
+  ADD COLUMN IF NOT EXISTS orientacion text,
+  ADD COLUMN IF NOT EXISTS estado_propiedad text,
+  ADD COLUMN IF NOT EXISTS conexion_lavadora boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS closet boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS terraza_propia boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS amenidades text[] DEFAULT '{}',
+  ADD COLUMN IF NOT EXISTS condiciones_adicionales text;
