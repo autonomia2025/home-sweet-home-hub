@@ -1,6 +1,6 @@
 import { useState, useMemo, lazy, Suspense, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Propiedad } from "@/lib/supabase-helpers";
 import { useConfig } from "@/context/ConfigContext";
 
