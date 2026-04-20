@@ -283,6 +283,19 @@ export function LandingMap({ propiedades }: LandingMapProps) {
             © OpenStreetMap · © CARTO
           </p>
 
+          <p
+            className="text-[10px] tracking-[0.3em] uppercase mb-4 font-body"
+            style={{ color: "#5a7a5a", fontWeight: 600 }}
+          >
+            {withCoords.length}{" "}
+            {withCoords.length === 1 ? "PROPIEDAD" : "PROPIEDADES"} EN EL MAPA
+            {withCoords.length > 3 && (
+              <span style={{ color: "#8a7a6a", fontWeight: 400 }}>
+                {" · DESLIZA PARA VER TODAS"}
+              </span>
+            )}
+          </p>
+
           <ul className="space-y-3">
             {withCoords.map((p) => {
               const isActive = activeId === p.id;
@@ -341,6 +354,21 @@ export function LandingMap({ propiedades }: LandingMapProps) {
                       >
                         Ver detalle →
                       </Link>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 mt-2 ml-4 text-[10px] tracking-[0.2em] uppercase font-body"
+                        style={{
+                          color: "#5a7a5a",
+                          fontWeight: 600,
+                          borderBottom: "1px solid #5a7a5a",
+                          paddingBottom: 2,
+                        }}
+                      >
+                        Google Maps <ExternalLink style={{ width: 10, height: 10 }} />
+                      </a>
                     </div>
                     <ArrowUpRight
                       className="flex-shrink-0"
