@@ -122,8 +122,20 @@ export function LandingMap({ propiedades }: LandingMapProps) {
             >
               {withCoords.length}{" "}
               {withCoords.length === 1 ? "PROPIEDAD" : "PROPIEDADES"} EN EL MAPA
+              {withCoords.length > 3 && (
+                <span style={{ color: "#8a7a6a", fontWeight: 400 }}>
+                  {" · DESLIZA PARA VER TODAS"}
+                </span>
+              )}
             </p>
-            <ul className="space-y-1 max-h-[520px] overflow-y-auto pr-2">
+            <div style={{ position: "relative" }}>
+            <ul
+              className="space-y-1 max-h-[520px] overflow-y-auto pr-2"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "#5a7a5a transparent",
+              }}
+            >
               {withCoords.map((p, idx) => {
                 const isActive = activeId === p.id;
                 return (
@@ -196,6 +208,21 @@ export function LandingMap({ propiedades }: LandingMapProps) {
                           >
                             Ver detalle →
                           </Link>
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 mt-3 ml-4 text-[10px] tracking-[0.2em] uppercase font-body"
+                            style={{
+                              color: "#5a7a5a",
+                              fontWeight: 600,
+                              borderBottom: "1px solid #5a7a5a",
+                              paddingBottom: 2,
+                            }}
+                          >
+                            Google Maps <ExternalLink style={{ width: 10, height: 10 }} />
+                          </a>
                         </div>
                         <ArrowUpRight
                           className="flex-shrink-0 mt-1 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -207,6 +234,21 @@ export function LandingMap({ propiedades }: LandingMapProps) {
                 );
               })}
             </ul>
+            {withCoords.length > 3 && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 8,
+                  height: 60,
+                  background:
+                    "linear-gradient(180deg, rgba(240,235,227,0) 0%, #f0ebe3 100%)",
+                  pointerEvents: "none",
+                }}
+              />
+            )}
+            </div>
           </div>
         </div>
 
