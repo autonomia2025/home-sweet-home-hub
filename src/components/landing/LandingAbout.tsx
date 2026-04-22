@@ -1,6 +1,7 @@
 import { useReveal } from "@/hooks/use-reveal";
 import { useConfig } from "@/context/ConfigContext";
 import { SkeletonText } from "@/components/ui/skeleton";
+import aboutFamily from "@/assets/about-family.jpg";
 
 export function LandingAbout() {
   const { presentacion, loading } = useConfig();
@@ -42,19 +43,27 @@ export function LandingAbout() {
 
         <div className="reveal-hidden flex justify-center md:justify-end" data-reveal-delay="200">
           <div
-            className="w-64 h-64 md:w-80 md:h-80 flex items-center justify-center"
+            className="relative w-72 h-72 md:w-[420px] md:h-[420px] overflow-hidden"
             style={{
-              backgroundColor: "#f0ebe3",
               border: "1px solid rgba(44,36,22,0.08)",
-              boxShadow: "20px 20px 60px rgba(44,36,22,0.08), -5px -5px 20px rgba(255,255,255,0.5)",
+              boxShadow: "20px 20px 60px rgba(44,36,22,0.12), -5px -5px 20px rgba(255,255,255,0.5)",
             }}
           >
-            <span
-              className="font-display text-6xl md:text-7xl tracking-widest"
-              style={{ fontWeight: 300, color: "rgba(44,36,22,0.25)" }}
-            >
-              PC
-            </span>
+            <img
+              src={aboutFamily}
+              alt="Interior cálido y acogedor de una casa de familia chilena"
+              loading="lazy"
+              width={1024}
+              height={1024}
+              className="w-full h-full object-cover"
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(44,36,22,0.05) 0%, rgba(44,36,22,0) 40%, rgba(44,36,22,0.15) 100%)",
+              }}
+            />
           </div>
         </div>
       </div>
