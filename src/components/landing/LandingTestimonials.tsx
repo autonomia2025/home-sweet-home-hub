@@ -13,7 +13,7 @@ const testimonials = [
     location: "Santiago Centro",
   },
   {
-    quote: "Vendimos nuestro terreno sin complicaciones. Siempre estuvieron disponibles para responder dudas.",
+    quote: "Encontramos el terreno ideal sin complicaciones. Siempre estuvieron disponibles para responder nuestras dudas.",
     name: "Andrés P.",
     location: "Puertecillo",
   },
